@@ -7,7 +7,10 @@ authors = [
     { name = "Karthik Reddy Changal", email = "83645138+kikugo@users.noreply.github.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "huggingface-hub>=2.3.0",
+    "pyarrow>=26.0.0",
+]
 
 [dependency-groups]
 dev = [
