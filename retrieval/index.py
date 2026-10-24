@@ -1,13 +1,17 @@
 import re
+import time
 from collections.abc import Callable
 
 from azure.core.exceptions import HttpResponseError
 from azure.search.documents.indexes.models import (
+    CustomAnalyzer,
     HnswAlgorithmConfiguration,
     HnswParameters,
     LexicalAnalyzerName,
+    PatternTokenizer,
     RescoringOptions,
     ScalarQuantizationCompression,
+    ScoringProfile,
     SearchableField,
     SearchField,
     SearchFieldDataType,
@@ -17,6 +21,8 @@ from azure.search.documents.indexes.models import (
     SemanticPrioritizedFields,
     SemanticSearch,
     SimpleField,
+    TextWeights,
+    TokenFilterName,
     VectorSearch,
     VectorSearchCompressionRescoreStorageMethod,
     VectorSearchProfile,
@@ -25,9 +31,28 @@ from azure.search.documents.indexes.models import (
 from ingest.models import Article
 
 VECTOR_FIELD = "content_vector"
+NUM_ANALYZER = "num_analyzer"
+NUM_BOOST = 5.0  # num_search vs content: articles citing L1237-19 often out-score L1237-19 itself
 SEMANTIC_CONFIG = "default"
 UPLOAD_BATCH = 500
 COMPRESSIONS = ("none", "int8")
+
+# Which chunks go into the index. The free tier (50 MB) can't hold the full corpus,
+# so it gets a trimmed scope; "full" is for a Basic service.
+SCOPES = {
+    "full": lambda a: True,
+    "code-l+kali": lambda a: a.source != "code" or a.num.startswith("L"),
+    "code-l+kali-base": lambda a: (
+        a.num.startswith("L") if a.source == "code" else " > Textes Attachés" not in a.path
+    ),
+    "code-l": lambda a: a.source == "code" and a.num.startswith("L"),
+}
+
+
+def select_scope(articles: list[Article], scope: str) -> list[Article]:
+    if scope not in SCOPES:
+        raise ValueError(f"scope must be one of {list(SCOPES)}")
+    return [a for a in articles if SCOPES[scope](a)]
 
 
 def doc_key(chunk_id: str) -> str:
@@ -41,7 +66,10 @@ def index_definition(name: str, dims: int, compression: str = "none") -> SearchI
     fr = LexicalAnalyzerName.FR_MICROSOFT
     fields = [
         SimpleField(name="id", type=SearchFieldDataType.String, key=True),
-        SearchableField(name="num", filterable=True),
+        SimpleField(name="num", type=SearchFieldDataType.String, filterable=True),
+        # Code article numbers as single tokens ("L1237-19"), so a question naming an article
+        # matches it exactly and not L1237-19-3. Empty for KALI, whose "1", "2" would match digits.
+        SearchableField(name="num_search", analyzer_name=NUM_ANALYZER),
         SimpleField(
             name="source", type=SearchFieldDataType.String, filterable=True, facetable=True
         ),
@@ -95,7 +123,24 @@ def index_definition(name: str, dims: int, compression: str = "none") -> SearchI
         ],
     )
     return SearchIndex(
-        name=name, fields=fields, vector_search=vector_search, semantic_search=semantic
+        name=name,
+        fields=fields,
+        vector_search=vector_search,
+        semantic_search=semantic,
+        scoring_profiles=[
+            ScoringProfile(
+                name="num-boost", text_weights=TextWeights(weights={"num_search": NUM_BOOST})
+            )
+        ],
+        default_scoring_profile="num-boost",
+        tokenizers=[PatternTokenizer(name="num_tokenizer", pattern=r"[^\w\-]+")],
+        analyzers=[
+            CustomAnalyzer(
+                name=NUM_ANALYZER,
+                tokenizer_name="num_tokenizer",
+                token_filters=[TokenFilterName.LOWERCASE],
+            )
+        ],
     )
 
 
@@ -103,6 +148,7 @@ def to_document(article: Article, vector) -> dict:
     return {
         "id": doc_key(article.id),
         "num": article.num,
+        "num_search": article.num if article.source == "code" else "",
         "source": article.source,
         "path": article.path,
         "content": article.text,
@@ -136,7 +182,45 @@ def build(
         log(f"uploaded {min(start + UPLOAD_BATCH, len(docs))}/{len(docs)}")
     if failed:
         raise RuntimeError(f"{failed} documents failed to upload")
-    return dict(index_client.get_index_statistics(name))
+    return wait_for_stats(index_client, name, len(docs), log=log)
+
+
+def wait_for_stats(
+    index_client,
+    name: str,
+    expected_docs: int,
+    tries: int = 30,
+    steady: int = 3,
+    sleep=time.sleep,
+    log=print,
+) -> dict:
+    """Free-tier statistics lag: the vector index is counted first, the text a few minutes later.
+
+    Poll until every doc is counted, text storage shows up, and `steady` readings agree.
+    """
+    readings: list[dict] = []
+    for _ in range(tries):
+        stats = index_stats(index_client, name)
+        text_counted = stats["storage_size"] - stats["vector_index_size"] > 1_048_576
+        if stats["document_count"] == expected_docs and text_counted:
+            readings.append(stats)
+            if len(readings) >= steady and all(r == stats for r in readings[-steady:]):
+                return stats
+        else:
+            readings.clear()
+        sleep(60)
+    log("statistics did not settle; returning the last reading")
+    return stats
+
+
+def index_stats(index_client, name: str) -> dict:
+    # SDK 12 returns a model object; dict() on it gives the wire (camelCase) keys.
+    s = index_client.get_index_statistics(name)
+    return {
+        "document_count": s.document_count,
+        "storage_size": s.storage_size,
+        "vector_index_size": s.vector_index_size,
+    }
 
 
 def check_semantic(search_client, query: str = "durée du préavis de licenciement") -> dict:
