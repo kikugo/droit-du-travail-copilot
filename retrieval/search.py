@@ -79,7 +79,7 @@ def needs_vector(mode: Mode) -> bool:
 def search(
     clients,
     query: str,
-    mode: Mode = Mode.HYBRID_SEMANTIC,
+    mode: Mode = Mode.HYBRID,  # hybrid_semantic needs Basic; the free tier has no semantic ranker
     top: int = 5,
     source: str | None = None,
 ) -> list[Hit]:
