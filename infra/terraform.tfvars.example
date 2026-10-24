@@ -1,0 +1,7 @@
+# Copy to terraform.tfvars (gitignored) or export TF_VAR_subscription_id instead.
+subscription_id = "00000000-0000-0000-0000-000000000000"
+
+# Optional overrides
+# prefix          = "ddt"
+# location        = "swedencentral"
+# search_location = "polandcentral"
