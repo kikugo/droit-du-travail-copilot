@@ -1,0 +1,117 @@
+{
+  "sources": {
+    "legi": {
+      "repo": "AgentPublic/legi",
+      "revision": "59d6fd3570bc6f7060bc77c182897cc226ce2e9e",
+      "snapshot": "legi-20260926"
+    },
+    "kali": {
+      "repo": "SocialGouv/kali-data",
+      "revision": "84b1d6713c20184f2fec889c69a056864f8c5246"
+    }
+  },
+  "articles": {
+    "IDCC 1486": 1057,
+    "IDCC 1979": 634,
+    "code": 11476
+  },
+  "chunks": {
+    "IDCC 1486": 1140,
+    "IDCC 1979": 704,
+    "code": 11476
+  },
+  "code_by_kind": {
+    "A": 7,
+    "D": 1529,
+    "L": 4393,
+    "R": 5547
+  },
+  "articles_without_date": {
+    "IDCC 1486": 80,
+    "IDCC 1979": 39
+  },
+  "free_tier_bytes": 52428800,
+  "estimates": [
+    {
+      "scope": "all",
+      "dims": 1536,
+      "vector_type": "float32",
+      "chunks": 13320,
+      "vector_bytes": 81838080,
+      "text_bytes": 16269458,
+      "total_bytes": 98107538,
+      "fits": false
+    },
+    {
+      "scope": "all",
+      "dims": 1536,
+      "vector_type": "int8",
+      "chunks": 13320,
+      "vector_bytes": 20459520,
+      "text_bytes": 16269458,
+      "total_bytes": 36728978,
+      "fits": true
+    },
+    {
+      "scope": "all",
+      "dims": 512,
+      "vector_type": "float32",
+      "chunks": 13320,
+      "vector_bytes": 27279360,
+      "text_bytes": 16269458,
+      "total_bytes": 43548818,
+      "fits": true
+    },
+    {
+      "scope": "all",
+      "dims": 512,
+      "vector_type": "int8",
+      "chunks": 13320,
+      "vector_bytes": 6819840,
+      "text_bytes": 16269458,
+      "total_bytes": 23089298,
+      "fits": true
+    },
+    {
+      "scope": "code L only",
+      "dims": 1536,
+      "vector_type": "float32",
+      "chunks": 4393,
+      "vector_bytes": 26990592,
+      "text_bytes": 4931888,
+      "total_bytes": 31922480,
+      "fits": true
+    },
+    {
+      "scope": "code L only",
+      "dims": 1536,
+      "vector_type": "int8",
+      "chunks": 4393,
+      "vector_bytes": 6747648,
+      "text_bytes": 4931888,
+      "total_bytes": 11679536,
+      "fits": true
+    },
+    {
+      "scope": "code L only",
+      "dims": 512,
+      "vector_type": "float32",
+      "chunks": 4393,
+      "vector_bytes": 8996864,
+      "text_bytes": 4931888,
+      "total_bytes": 13928752,
+      "fits": true
+    },
+    {
+      "scope": "code L only",
+      "dims": 512,
+      "vector_type": "int8",
+      "chunks": 4393,
+      "vector_bytes": 2249216,
+      "text_bytes": 4931888,
+      "total_bytes": 7181104,
+      "fits": true
+    }
+  ],
+  "articles_jsonl_sha256": "c988ca5d1399ff6c40a426a9eca46556f3169f2606ea3b94c6cdcbb9f3633467"
+}
