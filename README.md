@@ -7,3 +7,15 @@
 ## Status
 
 Work in progress. Results tables will be generated from `results/*.json` once the eval exists.
+
+## Infrastructure
+
+Everything on Azure is in `infra/` (Terraform, azurerm provider, local state): a resource group, a Foundry account with one project and two model deployments (chat and `text-embedding-3-small`), Azure AI Search on the Free tier, and Log Analytics with Application Insights.
+
+```bash
+make validate                               # fmt + validate, no Azure calls
+make plan                                   # writes infra/tfplan
+terraform -chdir=infra apply tfplan
+terraform -chdir=infra output
+terraform -chdir=infra destroy
+```
