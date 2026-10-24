@@ -1,0 +1,51 @@
+{
+  "type": "convention collective",
+  "data": {
+    "num": "1486",
+    "id": "KALICONT000000000001",
+    "title": "Convention collective nationale de test",
+    "shortTitle": "Bureaux d'études techniques"
+  },
+  "children": [
+    {
+      "type": "section",
+      "data": {"id": "KALITEXT000000000010", "title": "Texte de base : Convention collective nationale du 15 décembre 1987", "etat": "VIGUEUR_ETEN", "modifDate": "2023-07-01"},
+      "children": [
+        {
+          "type": "section",
+          "data": {"id": "KALISCTA000000000011", "title": "Titre II  Préavis"},
+          "children": [
+            {
+              "type": "article",
+              "data": {"id": "KALIARTI000000000101", "cid": "KALIARTI000000000101", "num": "15", "intOrdre": "10", "etat": "VIGUEUR_ETEN", "content": "<p>Sauf accord entre les parties, la durée du préavis est de :</p><p>- 1 mois pour les employés ;</p><p>- 3 mois pour les cadres.</p>"}
+            },
+            {
+              "type": "article",
+              "data": {"id": "KALIARTI000000000102", "cid": "KALIARTI000000000102", "num": "16", "intOrdre": "20", "etat": "ABROGE", "content": "<p>Ancienne rédaction.</p>"}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "data": {"id": "KALITEXT000000000020", "title": "Accord du 26 juin 2024 relatif aux salaires minimaux", "etat": "VIGUEUR_NON_ETEN", "modifDate": "2025-01-01"},
+      "children": [
+        {
+          "type": "article",
+          "data": {"id": "KALIARTI000000000201", "cid": "KALIARTI000000000201", "intOrdre": "30", "etat": "VIGUEUR_NON_ETEN", "content": "<p>Les salaires minimaux sont :</p><table><tr><th>Coefficient</th><th>Salaire</th></tr><tr><td>230</td><td>1 900 &euro;</td></tr></table>"}
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "data": {"id": "KALITEXT000000000030", "title": "Accord du 1er janvier 2000 (dénoncé)", "etat": "ABROGE", "modifDate": "2005-01-01"},
+      "children": [
+        {
+          "type": "article",
+          "data": {"id": "KALIARTI000000000301", "cid": "KALIARTI000000000301", "num": "1", "intOrdre": "40", "etat": "VIGUEUR", "content": "<p>Should be skipped with its abrogated text.</p>"}
+        }
+      ]
+    }
+  ]
+}
