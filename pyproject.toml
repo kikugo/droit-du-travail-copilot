@@ -1,0 +1,26 @@
+[project]
+name = "droit-du-travail-copilot"
+version = "0.1.0"
+description = "French labour-law RAG agent on Azure AI Foundry"
+readme = "README.md"
+authors = [
+    { name = "Karthik Reddy Changal", email = "83645138+kikugo@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.17.2",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
