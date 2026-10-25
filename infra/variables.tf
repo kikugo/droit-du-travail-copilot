@@ -59,6 +59,24 @@ variable "chat_capacity" {
   default     = 50
 }
 
+variable "judge_model_name" {
+  description = "Judge model for faithfulness (eval only)."
+  type        = string
+  default     = "gpt-4.1-mini"
+}
+
+variable "judge_model_version" {
+  description = "Judge model version, pinned so faithfulness scores stay comparable."
+  type        = string
+  default     = "2025-04-14"
+}
+
+variable "judge_capacity" {
+  description = "Judge deployment rate limit, in thousands of tokens per minute."
+  type        = number
+  default     = 50
+}
+
 variable "embedding_capacity" {
   description = "Embedding deployment rate limit, in thousands of tokens per minute."
   type        = number

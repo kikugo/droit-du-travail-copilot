@@ -90,6 +90,26 @@ resource "azurerm_cognitive_deployment" "embedding" {
   depends_on = [azurerm_cognitive_deployment.chat]
 }
 
+# Faithfulness judge for the eval: a different model from the generator.
+resource "azurerm_cognitive_deployment" "judge" {
+  name                   = var.judge_model_name
+  cognitive_account_id   = azurerm_cognitive_account.foundry.id
+  version_upgrade_option = "NoAutoUpgrade"
+
+  model {
+    format  = "OpenAI"
+    name    = var.judge_model_name
+    version = var.judge_model_version
+  }
+
+  sku {
+    name     = "GlobalStandard"
+    capacity = var.judge_capacity
+  }
+
+  depends_on = [azurerm_cognitive_deployment.embedding]
+}
+
 resource "azurerm_search_service" "main" {
   name                = format(local.name, "search")
   location            = var.search_location

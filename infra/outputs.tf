@@ -26,6 +26,10 @@ output "embedding_deployment" {
   value = azurerm_cognitive_deployment.embedding.name
 }
 
+output "judge_deployment" {
+  value = azurerm_cognitive_deployment.judge.name
+}
+
 output "search_service_name" {
   value = azurerm_search_service.main.name
 }

@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 INFRA = Path(__file__).resolve().parents[1] / "infra"
+BENCHMARK = INFRA / "benchmark"
 
 pytestmark = pytest.mark.skipif(shutil.which("terraform") is None, reason="terraform not installed")
 
@@ -28,4 +29,23 @@ def test_validate():
     init = terraform("init", "-backend=false", "-input=false")
     assert init.returncode == 0, init.stderr
     result = terraform("validate", "-no-color")
+    assert result.returncode == 0, result.stderr
+
+
+def test_benchmark_validate():
+    init = subprocess.run(
+        ["terraform", f"-chdir={BENCHMARK}", "init", "-backend=false", "-input=false"],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=300,
+    )
+    assert init.returncode == 0, init.stderr
+    result = subprocess.run(
+        ["terraform", f"-chdir={BENCHMARK}", "validate", "-no-color"],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=300,
+    )
     assert result.returncode == 0, result.stderr
