@@ -1,0 +1,44 @@
+# Phase 4 "Done when": 10 in-scope questions answered with the expected articles cited,
+# 3 out-of-scope questions refused. Review the expected articles against Légifrance.
+# A question passes when at least one `expect` article is cited (and `expect_tool` was called).
+in_scope:
+  - id: preavis_3_ans
+    question: "Quel est le préavis minimum pour un salarié licencié après 3 ans d'ancienneté ?"
+    expect: [{num: L1234-1, source: code}]
+    expect_tool: preavis
+  - id: indemnite_5_ans
+    question: "Quelle indemnité légale de licenciement pour 5 ans d'ancienneté avec un salaire de référence de 2 500 € brut ?"
+    expect: [{num: L1234-9, source: code}, {num: R1234-2, source: code}]
+    expect_tool: indemnite_licenciement
+  - id: indemnite_12_ans
+    question: "Je suis licencié après 12 ans dans l'entreprise, mon salaire de référence est de 3 000 €. Quelle indemnité minimale ?"
+    expect: [{num: L1234-9, source: code}, {num: R1234-2, source: code}]
+    expect_tool: indemnite_licenciement
+  - id: rupture_conventionnelle
+    question: "Comment fonctionne une rupture conventionnelle de CDI ?"
+    expect: [{num: L1237-11, source: code}]
+  - id: periode_essai_cadre
+    question: "Quelle est la durée maximale de la période d'essai d'un cadre en CDI ?"
+    expect: [{num: L1221-19, source: code}]
+  - id: conges_payes
+    question: "Combien de jours de congés payés un salarié acquiert-il par mois de travail ?"
+    expect: [{num: L3141-3, source: code}]
+  - id: duree_legale
+    question: "Quelle est la durée légale du travail par semaine ?"
+    expect: [{num: L3121-27, source: code}]
+  - id: syntec_preavis
+    question: "Dans la convention Syntec, quelle est la durée du préavis d'un ingénieur ou cadre ?"
+    expect: [{num: "4.2", source: IDCC 1486}]
+  - id: hcr_periode_essai
+    question: "Quelle est la période d'essai prévue par la convention collective HCR ?"
+    expect: [{num: "13", source: IDCC 1979}]
+  - id: article_par_numero
+    question: "Que dit l'article L1237-19 du Code du travail ?"
+    expect: [{num: L1237-19, source: code}]
+out_of_scope:
+  - id: impot_plus_value
+    question: "Comment est imposée la plus-value sur la vente de ma résidence secondaire ?"
+  - id: droit_americain
+    question: "What is the federal minimum wage in the United States?"
+  - id: droit_penal
+    question: "Quelle est la peine encourue pour un vol simple en France ?"
