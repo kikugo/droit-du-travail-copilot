@@ -1,0 +1,6 @@
+{
+  "semantic_ranker": false,
+  "query": "durée du préavis de licenciement",
+  "error": "HttpResponseError: (FeatureNotSupportedInService) Semantic search is not enabled for this service.\r\nParameter name: queryType\nCode: FeatureNotSupportedInService\nMessage: Semantic search is not enabled for this service.\r\nParameter name: queryType\nException Details:\t(SemanticQueriesNotAvailable) Semantic search is not enabled for this service.\n\tCode: SemanticQueriesNotAvailable\n\tMessage: Semantic search is not enabled for this service.",
+  "search_endpoint": "https://ddt-search-57nmb.search.windows.net"
+}

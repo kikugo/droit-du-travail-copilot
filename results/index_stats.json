@@ -1,0 +1,54 @@
+{
+  "index": "articles-v1",
+  "embedding": {
+    "deployment": "text-embedding-3-small",
+    "dims": 512
+  },
+  "free_tier_bytes": 52428800,
+  "live": {
+    "scope": "code-l+kali-base",
+    "compression": "none"
+  },
+  "runs": [
+    {
+      "scope": "code-l+kali",
+      "compression": "none",
+      "chunks": 6237,
+      "document_count": 6237,
+      "storage_size": 57900932,
+      "vector_index_size": 39353856,
+      "fits": false,
+      "estimate_bytes": 21038470
+    },
+    {
+      "scope": "code-l+kali-base",
+      "compression": "none",
+      "chunks": 4669,
+      "document_count": 4669,
+      "storage_size": 45840783,
+      "vector_index_size": 29461392,
+      "fits": true,
+      "estimate_bytes": 14917799
+    },
+    {
+      "compression": "int8",
+      "document_count": 13320,
+      "storage_size": 126818722,
+      "vector_index_size": 84030780,
+      "fits": false,
+      "scope": "full",
+      "chunks": 13320,
+      "estimate_bytes": 23089298
+    },
+    {
+      "compression": "none",
+      "document_count": 13320,
+      "storage_size": 120982129,
+      "vector_index_size": 84033660,
+      "fits": false,
+      "scope": "full",
+      "chunks": 13320,
+      "estimate_bytes": 43548818
+    }
+  ]
+}
