@@ -1,6 +1,6 @@
 TF := terraform -chdir=infra
 
-.PHONY: init fmt fmt-check validate plan corpus env embed index query
+.PHONY: init fmt fmt-check validate plan corpus env embed index query ask smoke serve
 
 init:
 	$(TF) init
@@ -39,3 +39,13 @@ index:
 MODE ?= hybrid
 query:
 	uv run python -m retrieval query "$(Q)" --mode $(MODE)
+
+# agent (each question costs a few thousand gpt-5.4-mini tokens)
+ask:
+	uv run python -m copilot "$(Q)"
+
+smoke:
+	uv run python -m copilot smoke
+
+serve:
+	uv run uvicorn copilot.api:app --reload --port 8000

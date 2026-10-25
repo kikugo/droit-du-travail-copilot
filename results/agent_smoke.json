@@ -1,0 +1,598 @@
+{
+  "summary": {
+    "in_scope": {
+      "passed": 10,
+      "total": 10
+    },
+    "out_of_scope": {
+      "passed": 3,
+      "total": 3
+    },
+    "total_tokens": 48657,
+    "answers_with_unsupported_nums": 0
+  },
+  "results": [
+    {
+      "id": "preavis_3_ans",
+      "kind": "in_scope",
+      "passed": true,
+      "expected_cited": true,
+      "tool_ok": true,
+      "question": "Quel est le préavis minimum pour un salarié licencié après 3 ans d'ancienneté ?",
+      "answer": "Le préavis minimum est de **2 mois**.\n\nCela résulte de l’**article L1234-1** : avec **au moins 2 ans d’ancienneté**, le préavis est de **2 mois**. Une convention collective peut prévoir un délai plus favorable.\n\nSources :\n- article L1234-1 — Code du travail — en vigueur depuis le 2008-05-01 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006901112\n\nCeci n'est pas un avis juridique.",
+      "citations": [
+        {
+          "num": "L1234-1",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006901112",
+          "source": "code",
+          "date_debut_vigueur": "2008-05-01"
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "preavis",
+          "args": {
+            "anciennete_mois": 36,
+            "statut": "normal"
+          },
+          "nums": [
+            "L1234-1"
+          ]
+        }
+      ],
+      "trace_id": "126b075d5f99ecbf2f86c8f898693b5c",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 2153,
+        "output_tokens": 97,
+        "total_tokens": 2250
+      },
+      "latency_s": 3.07
+    },
+    {
+      "id": "indemnite_5_ans",
+      "kind": "in_scope",
+      "passed": true,
+      "expected_cited": true,
+      "tool_ok": true,
+      "question": "Quelle indemnité légale de licenciement pour 5 ans d'ancienneté avec un salaire de référence de 2 500 € brut ?",
+      "answer": "L’indemnité légale de licenciement est de **3 125 € brut** pour **5 ans d’ancienneté** avec un salaire de référence de **2 500 € brut**.\n\nCela correspond à l’indemnité minimale prévue par l’**article L1234-9**, avec le calcul détaillé aux **articles R1234-1** et **R1234-2**.\n\nUne convention collective peut prévoir une indemnité plus favorable.\n\nSources :\n- article L1234-9 — Code du travail — en vigueur depuis le 2017-09-24 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644154\n- article R1234-1 — Code du travail — en vigueur depuis le 2017-09-27 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644687\n- article R1234-2 — Code du travail — en vigueur depuis le 2017-09-27 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644692\n\nCeci n'est pas un avis juridique.",
+      "citations": [
+        {
+          "num": "L1234-9",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644154",
+          "source": "code",
+          "date_debut_vigueur": "2017-09-24"
+        },
+        {
+          "num": "R1234-1",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644687",
+          "source": "code",
+          "date_debut_vigueur": "2017-09-27"
+        },
+        {
+          "num": "R1234-2",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644692",
+          "source": "code",
+          "date_debut_vigueur": "2017-09-27"
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "indemnite_licenciement",
+          "args": {
+            "anciennete_mois": 60,
+            "salaire_ref": 2500.0,
+            "statut": "normal"
+          },
+          "nums": [
+            "L1234-9",
+            "R1234-1",
+            "R1234-2"
+          ]
+        }
+      ],
+      "trace_id": "7a9211676e5200b4d91f0ac2bf7e9d48",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 2339,
+        "output_tokens": 147,
+        "total_tokens": 2486
+      },
+      "latency_s": 2.2
+    },
+    {
+      "id": "indemnite_12_ans",
+      "kind": "in_scope",
+      "passed": true,
+      "expected_cited": true,
+      "tool_ok": true,
+      "question": "Je suis licencié après 12 ans dans l'entreprise, mon salaire de référence est de 3 000 €. Quelle indemnité minimale ?",
+      "answer": "L’indemnité minimale de licenciement est de **9 500 €**.\n\nElle est calculée selon l’**article L1234-9**, avec les modalités des **articles R1234-1** et **R1234-2** : pour 12 ans d’ancienneté et un salaire de référence de 3 000 €, cela représente **3,1667 mois de salaire**.\n\nUne convention collective peut prévoir une indemnité plus favorable.\n\nSources :\n- article L1234-9 — Code du travail — en vigueur depuis le 2017-09-24 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644154\n- article R1234-1 — Code du travail — en vigueur depuis le 2017-09-27 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644687\n- article R1234-2 — Code du travail — en vigueur depuis le 2017-09-27 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644692\n\nCeci n'est pas un avis juridique.",
+      "citations": [
+        {
+          "num": "L1234-9",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644154",
+          "source": "code",
+          "date_debut_vigueur": "2017-09-24"
+        },
+        {
+          "num": "R1234-1",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644687",
+          "source": "code",
+          "date_debut_vigueur": "2017-09-27"
+        },
+        {
+          "num": "R1234-2",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035644692",
+          "source": "code",
+          "date_debut_vigueur": "2017-09-27"
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "indemnite_licenciement",
+          "args": {
+            "anciennete_mois": 144,
+            "salaire_ref": 3000.0,
+            "statut": "normal"
+          },
+          "nums": [
+            "L1234-9",
+            "R1234-1",
+            "R1234-2"
+          ]
+        }
+      ],
+      "trace_id": "86a21f4700316d46f1d465c4ebe494f0",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 2337,
+        "output_tokens": 147,
+        "total_tokens": 2484
+      },
+      "latency_s": 5.16
+    },
+    {
+      "id": "rupture_conventionnelle",
+      "kind": "in_scope",
+      "passed": true,
+      "expected_cited": true,
+      "tool_ok": true,
+      "question": "Comment fonctionne une rupture conventionnelle de CDI ?",
+      "answer": "La rupture conventionnelle d’un CDI est un accord entre l’employeur et le salarié pour rompre le contrat d’un commun accord ; elle ne peut être imposée ni par l’un ni par l’autre, et elle est exclusive du licenciement ou de la démission, selon l’article L1237-11.\n\nPour les salariés protégés, elle est soumise à l’autorisation de l’inspecteur du travail ; la rupture ne peut alors intervenir qu’après cette autorisation, selon l’article L1237-15.\n\nEn pratique, il faut donc un accord signé par les deux parties ; les résultats dont je dispose ne détaillent pas ici la procédure complète d’homologation, le délai de rétractation ou le montant de l’indemnité spécifique. La convention Syntec mentionne seulement que la rupture conventionnelle dispense du préavis dans son article 4.1.\n\nSources :\n- article L1237-15 — Code du travail — en vigueur depuis le 2011-07-25 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000024396475\n- article L1237-11 — Code du travail — en vigueur depuis le 2008-06-27 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000019071187\n\nCeci n'est pas un avis juridique.",
+      "citations": [
+        {
+          "num": "L1237-15",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000024396475",
+          "source": "code",
+          "date_debut_vigueur": "2011-07-25"
+        },
+        {
+          "num": "L1237-11",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000019071187",
+          "source": "code",
+          "date_debut_vigueur": "2008-06-27"
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "search_code",
+          "args": {
+            "query": "rupture conventionnelle convention collective",
+            "source": "IDCC 1486"
+          },
+          "nums": [
+            "4.1",
+            "13.3",
+            "13.1",
+            "4.7",
+            "3.6"
+          ]
+        },
+        {
+          "name": "search_code",
+          "args": {
+            "query": "rupture conventionnelle convention collective",
+            "source": "IDCC 1979"
+          },
+          "nums": [
+            "12",
+            "4",
+            "12.1",
+            "art. 85898",
+            "27"
+          ]
+        },
+        {
+          "name": "search_code",
+          "args": {
+            "query": "rupture conventionnelle CDI article code du travail",
+            "source": "code"
+          },
+          "nums": [
+            "L1237-15",
+            "L1237-11",
+            "L1237-19-2",
+            "L1237-16",
+            "L1237-17"
+          ]
+        }
+      ],
+      "trace_id": "1c84ef12975ed37c64bec11ff7568a4a",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 6813,
+        "output_tokens": 297,
+        "total_tokens": 7110
+      },
+      "latency_s": 4.24
+    },
+    {
+      "id": "periode_essai_cadre",
+      "kind": "in_scope",
+      "passed": true,
+      "expected_cited": true,
+      "tool_ok": true,
+      "question": "Quelle est la durée maximale de la période d'essai d'un cadre en CDI ?",
+      "answer": "La durée maximale de la période d’essai d’un cadre en CDI est de quatre mois, selon l’article L1221-19.\n\nLe même code prévoit aussi qu’en cas de renouvellement, la durée totale ne peut pas dépasser huit mois pour les cadres, selon l’article L1221-21. Une convention collective peut prévoir des règles plus favorables, mais je ne l’affirme pas ici faute de vérification sur votre situation.\n\nSources :\n- article L1221-19 — Code du travail — en vigueur depuis le 2008-06-27 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000019071113\n- article L1221-21 — Code du travail — en vigueur depuis le 2008-06-27 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000019071109\n\nCeci n'est pas un avis juridique.",
+      "citations": [
+        {
+          "num": "L1221-19",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000019071113",
+          "source": "code",
+          "date_debut_vigueur": "2008-06-27"
+        },
+        {
+          "num": "L1221-21",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000019071109",
+          "source": "code",
+          "date_debut_vigueur": "2008-06-27"
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "search_code",
+          "args": {
+            "query": "durée maximale période d'essai cadre CDI",
+            "source": "code"
+          },
+          "nums": [
+            "L1221-19",
+            "L1242-10",
+            "L1221-21",
+            "L1251-14",
+            "L1242-8-1"
+          ]
+        }
+      ],
+      "trace_id": "795b4657d0e56c5e205cea3816f3b3dc",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 3516,
+        "output_tokens": 133,
+        "total_tokens": 3649
+      },
+      "latency_s": 2.34
+    },
+    {
+      "id": "conges_payes",
+      "kind": "in_scope",
+      "passed": true,
+      "expected_cited": true,
+      "tool_ok": true,
+      "question": "Combien de jours de congés payés un salarié acquiert-il par mois de travail ?",
+      "answer": "Un salarié acquiert **2,5 jours ouvrables de congés payés par mois de travail effectif** chez le même employeur, soit **30 jours ouvrables maximum par an** selon l’article L3141-3.\n\nL’article L3141-4 précise qu’**une période de quatre semaines ou vingt-quatre jours de travail** est assimilée à un mois de travail effectif pour le calcul des congés.\n\nSources :\n- article L3141-3 — Code du travail — en vigueur depuis le 2016-08-10 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033020826\n- article L3141-4 — Code du travail — en vigueur depuis le 2016-08-10 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033020822\n\nCeci n'est pas un avis juridique.",
+      "citations": [
+        {
+          "num": "L3141-3",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033020826",
+          "source": "code",
+          "date_debut_vigueur": "2016-08-10"
+        },
+        {
+          "num": "L3141-4",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033020822",
+          "source": "code",
+          "date_debut_vigueur": "2016-08-10"
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "search_code",
+          "args": {
+            "query": "nombre de jours de congés payés acquis par mois de travail congés payés mois travail",
+            "source": "code"
+          },
+          "nums": [
+            "L3141-19-3",
+            "L3141-3",
+            "L3141-4",
+            "L3141-5-1",
+            "L3141-23"
+          ]
+        },
+        {
+          "name": "search_code",
+          "args": {
+            "query": "acquisition congés payés par mois de travail article L3141-3",
+            "source": "code"
+          },
+          "nums": [
+            "L3142-122",
+            "L3141-5-1",
+            "L3141-4",
+            "L3141-23",
+            "L3141-30"
+          ]
+        }
+      ],
+      "trace_id": "bbb708f5ccc3bdfb697cef77adfd0b91",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 4833,
+        "output_tokens": 193,
+        "total_tokens": 5026
+      },
+      "latency_s": 3.34
+    },
+    {
+      "id": "duree_legale",
+      "kind": "in_scope",
+      "passed": true,
+      "expected_cited": true,
+      "tool_ok": true,
+      "question": "Quelle est la durée légale du travail par semaine ?",
+      "answer": "La durée légale du travail à temps complet est de 35 heures par semaine.\n\nCela résulte de l’article L3121-27 du code du travail.\n\nSources :\n- article L3121-27 — Code du travail — en vigueur depuis le 2016-08-10 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033020376\n\nCeci n'est pas un avis juridique.",
+      "citations": [
+        {
+          "num": "L3121-27",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033020376",
+          "source": "code",
+          "date_debut_vigueur": "2016-08-10"
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "search_code",
+          "args": {
+            "query": "durée légale du travail par semaine",
+            "source": "code"
+          },
+          "nums": [
+            "L3121-27",
+            "L3121-20",
+            "L3121-23",
+            "L3121-22",
+            "L3121-32"
+          ]
+        }
+      ],
+      "trace_id": "cdcc1975cc8669089a0f3ddb0ba1cddf",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 3323,
+        "output_tokens": 76,
+        "total_tokens": 3399
+      },
+      "latency_s": 3.39
+    },
+    {
+      "id": "syntec_preavis",
+      "kind": "in_scope",
+      "passed": true,
+      "expected_cited": true,
+      "tool_ok": true,
+      "question": "Dans la convention Syntec, quelle est la durée du préavis d'un ingénieur ou cadre ?",
+      "answer": "Réponse : le préavis est de 3 mois pour les ingénieurs et cadres dans la convention Syntec, sauf durée différente convenue entre les parties.\n\nCela résulte de l’article 4.2 de la convention Syntec, qui prévoit que « pour les ingénieurs et cadres : 3 mois » et précise qu’« une durée de préavis supérieure ou inférieure peut être définie par accord entre les parties ».\n\nSources :\n- article 4.2 — convention Syntec (IDCC 1486) — https://www.legifrance.gouv.fr/conv_coll/article/KALIARTI000047513833\n\nCeci n'est pas un avis juridique.",
+      "citations": [
+        {
+          "num": "4.2",
+          "url": "https://www.legifrance.gouv.fr/conv_coll/article/KALIARTI000047513833",
+          "source": "IDCC 1486",
+          "date_debut_vigueur": ""
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "search_code",
+          "args": {
+            "query": "préavis ingénieur cadre durée préavis Syntec",
+            "source": "IDCC 1486"
+          },
+          "nums": [
+            "4.2",
+            "4.4",
+            "art. 178956970",
+            "art. 1073741823",
+            "3.3"
+          ]
+        }
+      ],
+      "trace_id": "0208c95c56a79c3ab4f83a7773d533da",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 3608,
+        "output_tokens": 136,
+        "total_tokens": 3744
+      },
+      "latency_s": 4.57
+    },
+    {
+      "id": "hcr_periode_essai",
+      "kind": "in_scope",
+      "passed": true,
+      "expected_cited": true,
+      "tool_ok": true,
+      "question": "Quelle est la période d'essai prévue par la convention collective HCR ?",
+      "answer": "La convention HCR prévoit une période d’essai de :\n- 3 mois renouvelable une fois pour les cadres ;\n- 2 mois renouvelable une fois pour les agents de maîtrise ;\n- 1 mois renouvelable une fois pour les autres salariés ;\n- pour les cadres supérieurs, l’accord est de gré à gré.\n\nL’article 13 de la convention HCR précise aussi que le renouvellement doit être prévu dans le contrat ou la lettre d’embauche, et qu’il faut un accord écrit entre les parties pour le renouvellement. Pour les salariés de niveau I, échelon 1, le renouvellement n’est pas applicable.\n\nSources :\n- article 13 — convention HCR (IDCC 1979) — https://www.legifrance.gouv.fr/conv_coll/article/KALIARTI000005826269\n\nCeci n'est pas un avis juridique.",
+      "citations": [
+        {
+          "num": "13",
+          "url": "https://www.legifrance.gouv.fr/conv_coll/article/KALIARTI000005826269",
+          "source": "IDCC 1979",
+          "date_debut_vigueur": ""
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "search_code",
+          "args": {
+            "query": "période d'essai convention collective HCR durée",
+            "source": "IDCC 1979"
+          },
+          "nums": [
+            "13",
+            "14",
+            "10",
+            "2",
+            "art. 42949"
+          ]
+        }
+      ],
+      "trace_id": "7ed454bdb3a66b2f685dea84c58a4beb",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 3788,
+        "output_tokens": 180,
+        "total_tokens": 3968
+      },
+      "latency_s": 6.81
+    },
+    {
+      "id": "article_par_numero",
+      "kind": "in_scope",
+      "passed": true,
+      "expected_cited": true,
+      "tool_ok": true,
+      "question": "Que dit l'article L1237-19 du Code du travail ?",
+      "answer": "L’article L1237-19 du Code du travail prévoit qu’un accord collectif peut organiser une rupture conventionnelle collective, en excluant tout licenciement pour atteindre les objectifs de suppression d’emplois. Il précise aussi que l’administration doit être informée sans délai de l’ouverture de la négociation.\n\nL’explication tient en deux points, d’après l’article L1237-19 :\n- l’accord collectif peut fixer le contenu de la rupture conventionnelle collective ;\n- cette procédure exclut tout licenciement pour atteindre les objectifs visés.\n\nSources :\n- article L1237-19 — Code du travail — en vigueur depuis le 2018-01-01 — https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035623969\n\nCeci n'est pas un avis juridique.",
+      "citations": [
+        {
+          "num": "L1237-19",
+          "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035623969",
+          "source": "code",
+          "date_debut_vigueur": "2018-01-01"
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "get_article",
+          "args": {
+            "num": "L1237-19",
+            "source": "code"
+          },
+          "nums": [
+            "L1237-19"
+          ]
+        }
+      ],
+      "trace_id": "bdead9a79e7ec01c6ec222ad6890a8df",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 2272,
+        "output_tokens": 150,
+        "total_tokens": 2422
+      },
+      "latency_s": 2.94
+    },
+    {
+      "id": "impot_plus_value",
+      "kind": "out_of_scope",
+      "passed": true,
+      "refused": true,
+      "question": "Comment est imposée la plus-value sur la vente de ma résidence secondaire ?",
+      "answer": "Les sources dont je dispose ne couvrent pas cette question. Je n’ai pas trouvé, dans les textes accessibles ici, les articles du code général des impôts sur la plus-value immobilière des résidences secondaires.\n\nCeci n'est pas un avis juridique.",
+      "citations": [],
+      "tool_calls": [
+        {
+          "name": "search_code",
+          "args": {
+            "query": "imposition plus-value vente résidence secondaire exonération taux plus-value immobilière résidence secondaire",
+            "source": "code"
+          },
+          "nums": [
+            "L5312-13",
+            "L3262-6",
+            "L3243-3",
+            "L2253-3",
+            "L6325-1-1"
+          ]
+        },
+        {
+          "name": "search_code",
+          "args": {
+            "query": "plus-value immobilière résidence secondaire article 150 U 150 VC 150 VB 150 U CGI taux abattement",
+            "source": "code"
+          },
+          "nums": [
+            "L3261-7",
+            "L3262-6",
+            "L5425-2",
+            "L3261-6",
+            "L6324-4"
+          ]
+        }
+      ],
+      "trace_id": "36fbb5d22302f2ab4bf9096e96558680",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 7309,
+        "output_tokens": 141,
+        "total_tokens": 7450
+      },
+      "latency_s": 5.88
+    },
+    {
+      "id": "droit_americain",
+      "kind": "out_of_scope",
+      "passed": true,
+      "refused": true,
+      "question": "What is the federal minimum wage in the United States?",
+      "answer": "Les sources dont je dispose ne couvrent pas cette question. Il me manque des sources sur le droit du travail américain.\n\nCeci n'est pas un avis juridique.",
+      "citations": [],
+      "tool_calls": [],
+      "trace_id": "423f2e3777d7144f5262e907edf937cf",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 997,
+        "output_tokens": 28,
+        "total_tokens": 1025
+      },
+      "latency_s": 1.33
+    },
+    {
+      "id": "droit_penal",
+      "kind": "out_of_scope",
+      "passed": true,
+      "refused": true,
+      "question": "Quelle est la peine encourue pour un vol simple en France ?",
+      "answer": "Les sources dont je dispose ne couvrent pas cette question. Elles ne contiennent pas le texte du Code pénal sur le vol simple.\n\nCeci n'est pas un avis juridique.",
+      "citations": [],
+      "tool_calls": [
+        {
+          "name": "search_code",
+          "args": {
+            "query": "vol simple peine encourue article",
+            "source": "code"
+          },
+          "nums": [
+            "L1146-1",
+            "L1255-13",
+            "L4746-1",
+            "L2525-2",
+            "L1255-12"
+          ]
+        }
+      ],
+      "trace_id": "24d456483d394eac5ef45e999ba1a7a9",
+      "unsupported_nums": [],
+      "usage": {
+        "input_tokens": 3574,
+        "output_tokens": 70,
+        "total_tokens": 3644
+      },
+      "latency_s": 3.1
+    }
+  ]
+}
