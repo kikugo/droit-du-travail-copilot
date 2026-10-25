@@ -21,6 +21,7 @@ class ToolCall:
     args: dict
     nums: list[str] = field(default_factory=list)
     articles: list[dict] = field(default_factory=list)  # {num, url, source} for citations
+    texts: list[str] = field(default_factory=list)  # what the tool showed the model (eval context)
 
 
 def _cite(num: str, url: str, source: str, date: str = "") -> dict:
@@ -58,14 +59,17 @@ class ToolContext:
 def make_tools(ctx: ToolContext, calls: list[ToolCall]) -> list:
     """Tools bound to one request; every call is appended to `calls`."""
 
-    def _record(name: str, args: dict, articles: list[dict]) -> None:
-        calls.append(ToolCall(name, args, [a["num"] for a in articles], articles))
+    def _record(name: str, args: dict, articles: list[dict], texts: list[str] = ()) -> None:
+        calls.append(ToolCall(name, args, [a["num"] for a in articles], articles, list(texts)))
 
     def _cite_code(num: str) -> dict:
         found = ctx.corpus.lookup(num, "code")
         if not found:
             return _cite(num, "", "code")
         return _cite(num, found[0].legifrance_url, "code", found[0].date_debut_vigueur)
+
+    def _calc_text(res) -> str:
+        return f"Calcul : {res.valeur} {res.unite}. {res.explication}"
 
     def _calc_output(res) -> str:
         # Give the model the link and date of every article the calculator applied.
@@ -112,7 +116,8 @@ def make_tools(ctx: ToolContext, calls: list[ToolCall]) -> list:
             for h in hits
         ]
         _record("search_code", {"query": query, "source": source},
-                [_cite(h.num, h.url, h.source, h.date_debut_vigueur) for h in hits])  # fmt: skip
+                [_cite(h.num, h.url, h.source, h.date_debut_vigueur) for h in hits],
+                [f"{r['num']} ({r['source']}) : {r['texte']}" for r in results])  # fmt: skip
         return json.dumps({"resultats": results}, ensure_ascii=False)
 
     @tool(
@@ -151,7 +156,8 @@ def make_tools(ctx: ToolContext, calls: list[ToolCall]) -> list:
                     entry["origine"] = f"copie locale (Légifrance indisponible : {err})"
             out.append(entry)
         _record("get_article", {"num": num, "source": source},
-                [_cite(e["num"], e["url"], e["source"], e["date_debut_vigueur"]) for e in out])  # fmt: skip
+                [_cite(e["num"], e["url"], e["source"], e["date_debut_vigueur"]) for e in out],
+                [f"{e['num']} ({e['source']}) : {e['texte']}" for e in out])  # fmt: skip
         return json.dumps({"articles": out}, ensure_ascii=False)
 
     @tool(
@@ -169,7 +175,7 @@ def make_tools(ctx: ToolContext, calls: list[ToolCall]) -> list:
     ) -> str:
         res = calculators.preavis(anciennete_mois, statut)
         _record("preavis", {"anciennete_mois": anciennete_mois, "statut": statut},
-                [_cite_code(n) for n in res.articles])  # fmt: skip
+                [_cite_code(n) for n in res.articles], [_calc_text(res)])  # fmt: skip
         return _calc_output(res)
 
     @tool(
@@ -191,7 +197,7 @@ def make_tools(ctx: ToolContext, calls: list[ToolCall]) -> list:
         res = calculators.indemnite_licenciement(anciennete_mois, salaire_ref, statut)
         _record("indemnite_licenciement",
                 {"anciennete_mois": anciennete_mois, "salaire_ref": salaire_ref, "statut": statut},
-                [_cite_code(n) for n in res.articles])  # fmt: skip
+                [_cite_code(n) for n in res.articles], [_calc_text(res)])  # fmt: skip
         return _calc_output(res)
 
     return [search_code, get_article, preavis, indemnite_licenciement]
