@@ -12,9 +12,10 @@ dependencies = [
     "agent-framework-foundry>=1.15,<2",
     "azure-identity>=1.26.0",
     "azure-search-documents>=12,<13",
+    "deepeval>=4.3,<5",
     "fastapi>=0.162.0",
     "httpx>=0.28",
-    "huggingface-hub>=2.3.0",
+    "huggingface-hub>=1,<2.3",
     "numpy>=2.5.4",
     "openai>=3.37.0",
     "opentelemetry-sdk>=1.45.1",
@@ -36,6 +37,8 @@ package = false
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+# deepeval's pytest plugin starts telemetry and a results session; the eval doesn't use it
+addopts = "-p no:deepeval"
 
 [tool.ruff]
 line-length = 100
