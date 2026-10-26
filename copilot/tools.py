@@ -5,6 +5,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Annotated
 
 from agent_framework import tool
+from opentelemetry import trace
 from pydantic import Field
 
 from copilot import calculators
@@ -60,7 +61,10 @@ def make_tools(ctx: ToolContext, calls: list[ToolCall]) -> list:
     """Tools bound to one request; every call is appended to `calls`."""
 
     def _record(name: str, args: dict, articles: list[dict], texts: list[str] = ()) -> None:
-        calls.append(ToolCall(name, args, [a["num"] for a in articles], articles, list(texts)))
+        nums = [a["num"] for a in articles]
+        calls.append(ToolCall(name, args, nums, articles, list(texts)))
+        # Runs inside the framework's execute_tool span when instrumentation is on.
+        trace.get_current_span().set_attribute("copilot.tool.nums", nums)
 
     def _cite_code(num: str) -> dict:
         found = ctx.corpus.lookup(num, "code")

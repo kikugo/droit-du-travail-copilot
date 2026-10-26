@@ -5,17 +5,15 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 from opentelemetry import trace
-from opentelemetry.sdk.trace import TracerProvider
 
+from copilot import telemetry
 from copilot.prompts import INSTRUCTIONS, NOTICE
 from copilot.tools import Corpus, ToolCall, ToolContext, make_tools
 
 ARTICLES = Path("data/articles.jsonl")
 CODE_NUM = re.compile(r"\b[LRDA]\.?\s?\d{3,4}(?:-\d+)*\b")
 
-# Real trace ids now; Phase 6 adds the Azure Monitor exporter to this provider.
-if not isinstance(trace.get_tracer_provider(), TracerProvider):
-    trace.set_tracer_provider(TracerProvider())
+# A proxy tracer: spans go to whichever provider telemetry.setup() installs.
 tracer = trace.get_tracer("copilot")
 
 
@@ -156,6 +154,7 @@ def usage_of(response) -> dict:
 
 class Copilot:
     def __init__(self, chat_client, ctx: ToolContext, agent_factory=None, closers=()):
+        telemetry.setup()
         self.chat_client = chat_client
         self.ctx = ctx
         self.agent_factory = agent_factory or self._default_agent
