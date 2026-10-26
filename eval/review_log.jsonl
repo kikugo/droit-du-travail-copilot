@@ -1,0 +1,149 @@
+{"cid": "c001", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c002", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Government consultation procedure; no real user asks this."}
+{"cid": "c003", "decision": "edit", "id": "g001", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported by text, natural enough."}
+{"cid": "c004", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c005", "decision": "keep", "id": "g002", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported by text, natural enough."}
+{"cid": "c006", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c007", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c008", "decision": "keep", "id": "g003", "reviewer": "claude-sonnet-5-5", "score": 2, "reason": "Supported but fairly obscure; selected only to approach target."}
+{"cid": "c009", "decision": "keep", "id": "g004", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Supported by text, natural enough."}
+{"cid": "c010", "decision": "edit", "id": "g005", "reviewer": "claude-sonnet-5-5", "score": 2, "reason": "Supported but fairly obscure; selected only to approach target."}
+{"cid": "c011", "decision": "edit", "id": "g006", "reviewer": "claude-sonnet-5-5", "score": 2, "reason": "Supported but fairly obscure; selected only to approach target."}
+{"cid": "c012", "decision": "edit", "id": "g007", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Supported by text, natural enough."}
+{"cid": "c013", "decision": "keep", "id": "g008", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported by text, natural enough."}
+{"cid": "c014", "decision": "keep", "id": "g009", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Supported by text, natural enough."}
+{"cid": "c015", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c016", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c017", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c018", "decision": "keep", "id": "g010", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported by text, natural enough."}
+{"cid": "c019", "decision": "keep", "id": "g011", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported by text, natural enough."}
+{"cid": "c020", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Government consultation procedure; no real user asks this."}
+{"cid": "c021", "decision": "edit", "id": "g012", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Supported by text, natural enough."}
+{"cid": "c022", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c023", "decision": "keep", "id": "g013", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Supported by text, natural enough."}
+{"cid": "c024", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c025", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c026", "decision": "keep", "id": "g014", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported by text, natural enough."}
+{"cid": "c027", "decision": "keep", "id": "g015", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Supported by text, natural enough."}
+{"cid": "c028", "decision": "keep", "id": "g016", "reviewer": "claude-sonnet-5-5", "score": 2, "reason": "Supported but obscure; selected only to approach target."}
+{"cid": "c029", "decision": "edit", "id": "g017", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported by text, natural enough."}
+{"cid": "c030", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Obscure specialist provision."}
+{"cid": "c031", "decision": "keep", "id": "g018", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported by text, natural enough."}
+{"cid": "c032", "decision": "keep", "id": "g019", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported by text, natural enough."}
+{"cid": "c033", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c034", "decision": "keep", "id": "g020", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported by text, natural enough."}
+{"cid": "c035", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Obscure specialist provision."}
+{"cid": "c036", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Government consultation procedure; no real user asks this."}
+{"cid": "c037", "decision": "edit", "id": "g021", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Supported by text, natural enough."}
+{"cid": "c038", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c039", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Obscure specialist provision."}
+{"cid": "c040", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c041", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"; not current law and unnatural to ask."}
+{"cid": "c042", "decision": "keep", "id": "g022", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Supported by text, natural enough."}
+{"cid": "c043", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Obscure specialist provision."}
+{"cid": "c044", "decision": "keep", "id": "g023", "reviewer": "claude-sonnet-5-5", "score": 2, "reason": "Supported but fairly obscure; selected only to approach target."}
+{"cid": "c045", "decision": "keep", "id": "g024", "reviewer": "claude-sonnet-5-5", "score": 2, "reason": "Supported but fairly obscure; selected only to approach target."}
+{"cid": "c046", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Ambiguous (\"ces salariés\" has no referent); answer depends on unstated article."}
+{"cid": "c047", "decision": "edit", "id": "g025", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Question and answer tightened to match full text."}
+{"cid": "c048", "decision": "keep", "id": "g026", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c049", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"."}
+{"cid": "c050", "decision": "keep", "id": "g027", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c051", "decision": "keep", "id": "g028", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c052", "decision": "keep", "id": "g029", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c053", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"."}
+{"cid": "c054", "decision": "keep", "id": "g030", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c055", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"."}
+{"cid": "c056", "decision": "edit", "id": "g031", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Shortened gold."}
+{"cid": "c057", "decision": "edit", "id": "g032", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Shortened gold, tightened question."}
+{"cid": "c058", "decision": "edit", "id": "g033", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Shortened."}
+{"cid": "c059", "decision": "keep", "id": "g034", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c060", "decision": "edit", "id": "g035", "reviewer": "claude-sonnet-5-5", "score": 2, "reason": "Reworded awkward repetition; weak topic, selected to reach target."}
+{"cid": "c061", "decision": "keep", "id": "g036", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c062", "decision": "keep", "id": "g037", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c063", "decision": "edit", "id": "g038", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Removed duplicated article mention."}
+{"cid": "c064", "decision": "keep", "id": "g039", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c065", "decision": "edit", "id": "g040", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Simplified awkward wording; zone label approximated from text."}
+{"cid": "c066", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"."}
+{"cid": "c067", "decision": "edit", "id": "g041", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Removed duplicated article mention."}
+{"cid": "c068", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Article from the repealed \"Partie législative ancienne\"."}
+{"cid": "c069", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Overseas-only rewrite of an article; obscure edge case."}
+{"cid": "c070", "decision": "keep", "id": "g042", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c071", "decision": "keep", "id": "g043", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c072", "decision": "keep", "id": "g044", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Gold article number in question; answer supported by text."}
+{"cid": "c073", "decision": "keep", "id": "g045", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Formula answer supported by text."}
+{"cid": "c074", "decision": "keep", "id": "g046", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Clear, natural, text states 2 months for ETAM over 2 years."}
+{"cid": "c075", "decision": "keep", "id": "g047", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Supported."}
+{"cid": "c076", "decision": "keep", "id": "g048", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Supported."}
+{"cid": "c077", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Obscure historical negotiation calendar for 2008."}
+{"cid": "c078", "decision": "keep", "id": "g049", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported."}
+{"cid": "c079", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Obscure avenant entry-into-force clause."}
+{"cid": "c080", "decision": "keep", "id": "g050", "reviewer": "claude-sonnet-5-5", "score": 2, "reason": "Niche (avenant 13 scope) but supported; needed to reach 10."}
+{"cid": "c081", "decision": "keep", "id": "g051", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Supported."}
+{"cid": "c082", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Ambiguous: \"cet avenant\" has no referent."}
+{"cid": "c083", "decision": "keep", "id": "g052", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Supported."}
+{"cid": "c084", "decision": "keep", "id": "g053", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Supported; applies to Niveau I grid."}
+{"cid": "c085", "decision": "keep", "id": "g054", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Natural, supported."}
+{"cid": "c086", "decision": "keep", "id": "g055", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c087", "decision": "keep", "id": "g056", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c088", "decision": "not_selected", "reviewer": "claude-sonnet-5-5", "reason": "Args match question and expected recomputed OK. Redundant with a selected row."}
+{"cid": "c089", "decision": "keep", "id": "g057", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c090", "decision": "keep", "id": "g058", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c091", "decision": "keep", "id": "g059", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c092", "decision": "keep", "id": "g060", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c093", "decision": "not_selected", "reviewer": "claude-sonnet-5-5", "reason": "Args match question and expected recomputed OK. Redundant with a selected row."}
+{"cid": "c094", "decision": "keep", "id": "g061", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c095", "decision": "keep", "id": "g062", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c096", "decision": "not_selected", "reviewer": "claude-sonnet-5-5", "reason": "Args match question and expected recomputed OK. Redundant with a selected row."}
+{"cid": "c097", "decision": "keep", "id": "g063", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c098", "decision": "keep", "id": "g064", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c099", "decision": "keep", "id": "g065", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c100", "decision": "not_selected", "reviewer": "claude-sonnet-5-5", "reason": "Args match question and expected recomputed OK. Redundant with a selected row."}
+{"cid": "c101", "decision": "keep", "id": "g066", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c102", "decision": "keep", "id": "g067", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c103", "decision": "keep", "id": "g068", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c104", "decision": "keep", "id": "g069", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c105", "decision": "keep", "id": "g070", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c106", "decision": "keep", "id": "g071", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c107", "decision": "keep", "id": "g072", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c108", "decision": "not_selected", "reviewer": "claude-sonnet-5-5", "reason": "Args match question and expected recomputed OK. Redundant with a selected row."}
+{"cid": "c109", "decision": "keep", "id": "g073", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c110", "decision": "keep", "id": "g074", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Args match question and expected recomputed OK."}
+{"cid": "c111", "decision": "not_selected", "reviewer": "claude-sonnet-5-5", "reason": "Args match question and expected recomputed OK. Redundant with a selected row."}
+{"cid": "c112", "decision": "keep", "id": "g075", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c113", "decision": "edit", "id": "g076", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Criminal law; removed odd work framing."}
+{"cid": "c114", "decision": "keep", "id": "g077", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c115", "decision": "keep", "id": "g078", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c116", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Unemployment benefit rules (Code du travail L5422 etc.) partly answer it."}
+{"cid": "c117", "decision": "keep", "id": "g079", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c118", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Employment-law angle (horaires, absences) partly answerable from Code du travail."}
+{"cid": "c119", "decision": "keep", "id": "g080", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c120", "decision": "keep", "id": "g081", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c121", "decision": "keep", "id": "g082", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c122", "decision": "keep", "id": "g083", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c123", "decision": "keep", "id": "g084", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c124", "decision": "keep", "id": "g085", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c125", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Employer sanction/licenciement is labour-law territory."}
+{"cid": "c126", "decision": "keep", "id": "g086", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c127", "decision": "keep", "id": "g087", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c128", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Foreign workers authorisation is covered by Code du travail (L5221)."}
+{"cid": "c129", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Military status exclusion is addressed in labour-law scope; partly answerable."}
+{"cid": "c130", "decision": "keep", "id": "g088", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Clearly outside Code du travail and Syntec/HCR."}
+{"cid": "c131", "decision": "edit", "id": "g089", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Consumer law; removed work framing that invites labour-law answer."}
+{"cid": "c132", "decision": "keep", "id": "g090", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Plausible HR question, answer fully supported, but wording stays close to the article."}
+{"cid": "c133", "decision": "keep", "id": "g091", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Natural whistleblower question with a short, correct, text-supported answer."}
+{"cid": "c134", "decision": "keep", "id": "g092", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Very common question; quote_found false only because the evidence quote elides text with (...), claim matches source_text."}
+{"cid": "c135", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Describes recognised orientation bodies rather than an employee entitlement; unlikely user question."}
+{"cid": "c136", "decision": "keep", "id": "g093", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Natural retiree question, one-sentence answer directly in the text."}
+{"cid": "c137", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Obscure institutional rule about bodies for people far from employment."}
+{"cid": "c138", "decision": "keep", "id": "g094", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Realistic RH/CSE question with a clear yes and 'seul consulté' answer."}
+{"cid": "c139", "decision": "keep", "id": "g095", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Real but somewhat niche definition; answer is a long list yet supported."}
+{"cid": "c140", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Vague, narrow archiving derogation whose answer depends on a decree."}
+{"cid": "c141", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Very narrow modelling-agency rule few users ask about."}
+{"cid": "c142", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Narrow procedural rule for training organisations."}
+{"cid": "c143", "decision": "keep", "id": "g096", "reviewer": "claude-sonnet-5-5", "score": 5, "reason": "Classic forfait-jours question with an unambiguous numeric answer."}
+{"cid": "c144", "decision": "edit", "id": "g097", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Original question was misleading about 'how to organise'; reworded to what the text answers (adhere to a service, association paritaire, collection)."}
+{"cid": "c145", "decision": "keep", "id": "g098", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Natural eligibility question; four conditions listed correctly in the answer."}
+{"cid": "c146", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Narrow institutional sanction for CEP bodies, answer deferred to decree."}
+{"cid": "c147", "decision": "keep", "id": "g099", "reviewer": "claude-sonnet-5-5", "score": 4, "reason": "Realistic salarié question on participation without agreement; answer matches text."}
+{"cid": "c148", "decision": "drop", "reviewer": "claude-sonnet-5-5", "reason": "Overseas-only provision."}
+{"cid": "c149", "decision": "edit", "id": "g100", "reviewer": "claude-sonnet-5-5", "score": 3, "reason": "Gold answer shortened; two-part question is acceptable but somewhat dense."}

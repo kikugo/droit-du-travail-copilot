@@ -1,0 +1,17 @@
+# Azure retail prices (https://prices.azure.com/api/retail/prices), read on 2026-10-25.
+# USD per 1M tokens, Global Standard, swedencentral. Cost per 1,000 queries is computed from
+# the token counts each run records; edit this file if prices change, never the README.
+checked: "2026-10-25"
+currency: USD
+models:
+  gpt-5.4-mini:
+    input_per_1m: 0.75
+    output_per_1m: 4.50
+  gpt-4.1-mini:  # judge
+    input_per_1m: 0.40
+    output_per_1m: 1.60
+  text-embedding-3-small:  # no Global meter listed; Data Zone price, the higher of the two
+    input_per_1m: 0.022
+    output_per_1m: 0.0
+search:
+  basic_per_hour: 0.101

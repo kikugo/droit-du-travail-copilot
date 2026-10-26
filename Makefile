@@ -1,6 +1,6 @@
 TF := terraform -chdir=infra
 
-.PHONY: init fmt fmt-check validate plan corpus env embed index query ask smoke serve
+.PHONY: init fmt fmt-check validate plan corpus env embed index query ask smoke serve draft review eval-retrieval eval-agent report
 
 init:
 	$(TF) init
@@ -25,7 +25,7 @@ corpus:
 
 # endpoints and names only (no keys), read by retrieval/config.py
 env:
-	@terraform -chdir=infra output -json | python3 -c 'import json,sys; o=json.load(sys.stdin); print("AZURE_SEARCH_ENDPOINT=" + o["search_endpoint"]["value"]); print("AZURE_OPENAI_ENDPOINT=" + o["openai_endpoint"]["value"]); print("EMBEDDING_DEPLOYMENT=" + o["embedding_deployment"]["value"]); print("CHAT_DEPLOYMENT=" + o["chat_deployment"]["value"]); print("FOUNDRY_PROJECT_ENDPOINT=" + o["project_endpoint"]["value"])' > .env
+	@terraform -chdir=infra output -json | python3 -c 'import json,sys; o=json.load(sys.stdin); print("AZURE_SEARCH_ENDPOINT=" + o["search_endpoint"]["value"]); print("AZURE_OPENAI_ENDPOINT=" + o["openai_endpoint"]["value"]); print("EMBEDDING_DEPLOYMENT=" + o["embedding_deployment"]["value"]); print("CHAT_DEPLOYMENT=" + o["chat_deployment"]["value"]); print("JUDGE_DEPLOYMENT=" + o["judge_deployment"]["value"]) if "judge_deployment" in o else None; print("FOUNDRY_PROJECT_ENDPOINT=" + o["project_endpoint"]["value"])' > .env
 	@echo "wrote .env"
 
 # costs tokens (about 3.5M for the full corpus); resumable
@@ -49,3 +49,19 @@ smoke:
 
 serve:
 	uv run uvicorn copilot.api:app --reload --port 8000
+
+# eval (drafting, the agent run and the judge cost tokens; everything is cached)
+draft:
+	uv run python -m eval.draft_questions
+
+review:
+	uv run python -m eval.review
+
+eval-retrieval:
+	uv run python -m eval.run_retrieval --label $(or $(LABEL),free) $(if $(ENDPOINT),--search-endpoint $(ENDPOINT)) $(if $(INDEX),--index $(INDEX))
+
+eval-agent:
+	uv run python -m eval.run_agent $(if $(SUBSET),--subset $(SUBSET))
+
+report:
+	uv run python -m eval.report

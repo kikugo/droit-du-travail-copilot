@@ -1,5 +1,6 @@
 import argparse
 import json
+from dataclasses import replace
 from pathlib import Path
 
 from azure.core.exceptions import HttpResponseError
@@ -35,6 +36,12 @@ def write_json(path: Path, data: dict) -> None:
     print(f"wrote {path}")
 
 
+def results_path(name: str, args) -> Path:
+    """The benchmark service (an --search-endpoint override) gets its own results files."""
+    suffix = "_benchmark" if getattr(args, "search_endpoint", None) else ""
+    return Path(f"results/{name}{suffix}.json")
+
+
 def cmd_embed(clients: Clients, args) -> None:
     s = clients.settings
     _, tokens = embed_corpus(
@@ -65,7 +72,7 @@ def cmd_build(clients: Clients, args) -> None:
     vector_type = "int8" if args.compression == "int8" else "float32"
     predicted = estimate(articles, s.embedding_dims, vector_type, args.scope)
     # One entry per scope and compression, so the runs can be compared side by side.
-    path = Path("results/index_stats.json")
+    path = results_path("index_stats", args)
     previous = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     runs = {(r["scope"], r["compression"]): r for r in previous.get("runs", [])}
     runs[(args.scope, args.compression)] = {
@@ -91,7 +98,7 @@ def cmd_build(clients: Clients, args) -> None:
 def cmd_check_semantic(clients: Clients, args) -> None:
     result = check_semantic(clients.search_client)
     result["search_endpoint"] = clients.settings.search_endpoint
-    write_json(Path("results/search_capabilities.json"), result)
+    write_json(results_path("search_capabilities", args), result)
 
 
 def cmd_query(clients: Clients, args) -> None:
@@ -128,6 +135,8 @@ def cmd_record(clients: Clients, args) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(prog="python -m retrieval")
+    parser.add_argument("--search-endpoint", help="override AZURE_SEARCH_ENDPOINT (e.g. Basic)")
+    parser.add_argument("--index", help="override SEARCH_INDEX")
     sub = parser.add_subparsers(dest="cmd", required=True)
     sub.add_parser("embed", help="embed data/articles.jsonl into the local cache (costs tokens)")
     p = sub.add_parser("build", help="create the index and upload every chunk")
@@ -143,7 +152,12 @@ def main() -> None:
     sub.add_parser("record", help="record responses for the test fixture")
     args = parser.parse_args()
 
-    clients = Clients(Settings.from_env())
+    settings = Settings.from_env()
+    if args.search_endpoint:
+        settings = replace(settings, search_endpoint=args.search_endpoint)
+    if args.index:
+        settings = replace(settings, search_index=args.index)
+    clients = Clients(settings)
     commands = {
         "embed": cmd_embed,
         "build": cmd_build,

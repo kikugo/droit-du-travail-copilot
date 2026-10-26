@@ -27,6 +27,7 @@ class AskResult:
     tool_calls: list[dict]
     trace_id: str
     unsupported_nums: list[str] = field(default_factory=list)  # cited but never retrieved
+    contexts: list[str] = field(default_factory=list)  # tool outputs, for faithfulness
     usage: dict = field(default_factory=dict)
     latency_s: float = 0.0
 
@@ -227,6 +228,7 @@ class Copilot:
             tool_calls=[{"name": c.name, "args": c.args, "nums": c.nums} for c in calls],
             trace_id=trace_id,
             unsupported_nums=unsupported,
+            contexts=[t for c in calls for t in c.texts],
             usage=usage_of(response),
             latency_s=round(time.perf_counter() - start, 2),
         )
