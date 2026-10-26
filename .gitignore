@@ -35,6 +35,10 @@ terraform.rc
 data/*
 !data/.gitkeep
 
+# Web page (built into the image)
+web/node_modules/
+web/dist/
+
 # OS / editors
 .DS_Store
 .idea/
