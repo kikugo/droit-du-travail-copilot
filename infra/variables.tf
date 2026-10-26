@@ -89,6 +89,36 @@ variable "log_daily_quota_gb" {
   default     = 0.15
 }
 
+variable "image" {
+  description = "Container image for the app, without the tag (public GHCR package)."
+  type        = string
+  default     = "ghcr.io/kikugo/droit-du-travail-copilot"
+}
+
+variable "image_tag" {
+  description = "Tag for the first deploy; CI rolls later tags with az containerapp update."
+  type        = string
+  default     = "latest"
+}
+
+variable "search_index" {
+  description = "Index the app queries (built in Phase 3)."
+  type        = string
+  default     = "articles-v1"
+}
+
+variable "daily_question_cap" {
+  description = "Questions /ask answers per UTC day before returning 429 (spend guard)."
+  type        = number
+  default     = 300
+}
+
+variable "github_repository" {
+  description = "owner/name of the repo whose Actions may sign in as the CI identity."
+  type        = string
+  default     = "kikugo/droit-du-travail-copilot"
+}
+
 variable "grant_current_user_access" {
   description = "Give the identity running terraform data-plane roles on Foundry and Search."
   type        = bool
