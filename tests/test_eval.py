@@ -391,3 +391,15 @@ def test_report_writes_between_markers_idempotently(tmp_path):
     assert "| BM25 (keyword) | 50% | 75% | 80% (70–90) | 0.61 | 80% | 90 ms |" in first
     assert "not available on this tier" in first
     assert first.count(report.START) == 1
+
+
+def test_sampler_skips_old_numbering_and_extra_lookup_avoids_drafted_articles():
+    from eval.draft_questions import _usable, extra_lookup_specs
+
+    old = article("L143-11-1", path="Partie législative ancienne > Livre Ier")
+    assert not _usable(old)
+    arts = corpus_articles()
+    existing = [{"cid": "c131", "gold": [{"num": "L1000", "source": "code"}]}]
+    extra = extra_lookup_specs(arts, existing, 5)
+    assert [s["cid"] for s in extra] == ["c132", "c133", "c134", "c135", "c136"]
+    assert all(s["article"]["num"] != "L1000" for s in extra)

@@ -169,7 +169,12 @@ def load_scope_articles(path: Path = ARTICLES) -> list[Article]:
 
 
 def _usable(a: Article) -> bool:
-    return 200 <= len(a.text) <= 4000 and not a.num.startswith("art.")
+    # "Partie législative ancienne" holds pre-2008 numbering no user asks about
+    return (
+        200 <= len(a.text) <= 4000
+        and not a.num.startswith("art.")
+        and "ancienne" not in a.path.split(" > ")[0]
+    )
 
 
 def _stratified(rng: random.Random, articles: list[Article], n: int) -> list[Article]:
@@ -211,6 +216,27 @@ def sample_specs(articles: list[Article], seed: int = SEED) -> list[dict[str, An
     for i, s in enumerate(specs, start=1):
         s["cid"] = f"c{i:03d}"
     return specs
+
+
+def extra_lookup_specs(
+    articles: list[Article], existing: list[dict], n: int, seed: int = SEED + 1
+) -> list[dict[str, Any]]:
+    """More lookup candidates on articles not drafted yet, numbered after the existing ones."""
+    used = {(g["num"], g["source"]) for c in existing for g in c.get("gold", [])}
+    pool = sorted(
+        (
+            a
+            for a in articles
+            if a.source == "code" and _usable(a) and (a.num, a.source) not in used
+        ),
+        key=lambda a: a.id,
+    )
+    start = max(int(c["cid"][1:]) for c in existing) + 1
+    picks = _stratified(random.Random(seed), pool, n)
+    return [
+        {"type": "lookup", "article": a.__dict__, "cid": f"c{start + i:03d}"}
+        for i, a in enumerate(picks)
+    ]
 
 
 def expected_calc(tool: str, args: dict) -> dict:
@@ -276,10 +302,23 @@ def draft_one(client, cache: DiskCache, prompt: str, model: str = DRAFTER_MODEL)
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="python -m eval.draft_questions")
     parser.add_argument("--dry-run", action="store_true", help="show counts and cost estimate")
+    parser.add_argument(
+        "--extra-lookup",
+        type=int,
+        default=0,
+        help="append N new lookup candidates to candidates.jsonl",
+    )
     args = parser.parse_args(argv)
 
     articles = load_scope_articles()
-    specs = sample_specs(articles)
+    existing = []
+    if args.extra_lookup:
+        existing = [
+            json.loads(line) for line in CANDIDATES_PATH.read_text(encoding="utf-8").splitlines()
+        ]
+        specs = extra_lookup_specs(articles, existing, args.extra_lookup)
+    else:
+        specs = sample_specs(articles)
     counts = defaultdict(int)
     for s in specs:
         counts[s["type"]] += 1
@@ -301,7 +340,8 @@ def main(argv: list[str] | None = None) -> None:
         if i % 20 == 0:
             print(f"{i}/{len(specs)} drafted")
     CANDIDATES_PATH.write_text(
-        "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8"
+        "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in existing + rows),
+        encoding="utf-8",
     )
     flagged = sum(1 for r in rows if r.get("quote_found") is False)
     print(
