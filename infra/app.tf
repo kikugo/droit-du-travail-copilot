@@ -8,6 +8,12 @@ resource "azurerm_container_app_environment" "main" {
   logs_destination           = "log-analytics"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
   tags                       = local.tags
+
+  # Azure adds the serverless Consumption profile to new environments; declaring it avoids drift.
+  workload_profile {
+    name                  = "Consumption"
+    workload_profile_type = "Consumption"
+  }
 }
 
 resource "azurerm_container_app" "api" {
@@ -15,6 +21,7 @@ resource "azurerm_container_app" "api" {
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
   revision_mode                = "Single"
+  workload_profile_name        = "Consumption"
   tags                         = local.tags
 
   identity {
