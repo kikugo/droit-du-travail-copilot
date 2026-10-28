@@ -35,7 +35,11 @@ jobs:
       - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
-          push: true
+          # Pushes a plain Docker v2 manifest: Container Apps failed to pull the OCI index with
+          # attestations that buildx makes by default.
+          provenance: false
+          sbom: false
+          outputs: type=image,push=true,oci-mediatypes=false
           tags: |
             ${{ env.IMAGE }}:${{ github.sha }}
             ${{ env.IMAGE }}:latest
