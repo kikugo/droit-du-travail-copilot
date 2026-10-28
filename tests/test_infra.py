@@ -35,7 +35,8 @@ def test_validate():
 def test_app_scales_to_zero_and_one_replica_with_no_keys():
     app = (INFRA / "app.tf").read_text(encoding="utf-8")
     assert "min_replicas = 0" in app and "max_replicas = 1" in app  # limits.py relies on 1
-    assert "registry {" not in app  # public GHCR image, no pull secret
+    # GHCR pull token comes from a sensitive variable, never a literal
+    assert 'password_secret_name = "ghcr-pull-token"' in app and "var.ghcr_pull_token" in app
     assert "primary_key" not in app and "api_key" not in app.lower()
     assert 'issuer                    = "https://token.actions.githubusercontent.com"' in app
 

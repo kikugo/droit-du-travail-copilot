@@ -95,6 +95,18 @@ variable "image" {
   default     = "ghcr.io/kikugo/droit-du-travail-copilot"
 }
 
+variable "ghcr_username" {
+  description = "GitHub user that owns the GHCR package."
+  type        = string
+  default     = "kikugo"
+}
+
+variable "ghcr_pull_token" {
+  description = "Classic GitHub PAT with only read:packages, for Container Apps to pull the image. Set it in terraform.tfvars (gitignored)."
+  type        = string
+  sensitive   = true
+}
+
 variable "image_tag" {
   description = "Tag for the first deploy; CI rolls later tags with az containerapp update."
   type        = string

@@ -34,6 +34,19 @@ resource "azurerm_container_app" "api" {
     value = azurerm_application_insights.main.connection_string
   }
 
+  # Container Apps won't pull from a non-ACR registry without a registry entry, even for a
+  # public image (Learn: container-apps/github-actions). A read:packages-only PAT.
+  secret {
+    name  = "ghcr-pull-token"
+    value = var.ghcr_pull_token
+  }
+
+  registry {
+    server               = "ghcr.io"
+    username             = var.ghcr_username
+    password_secret_name = "ghcr-pull-token"
+  }
+
   ingress {
     external_enabled = true
     target_port      = 8000
