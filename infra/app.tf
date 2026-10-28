@@ -1,6 +1,8 @@
 # Phase 6: the container app that serves the agent, and the identity GitHub Actions uses.
-# Neither holds a key: the app uses its system-assigned identity, CI uses OIDC federation.
+# Neither holds a key: the app uses a user-assigned identity, CI uses OIDC federation.
 
+# Azure creates this environment in Express mode (environmentMode, which azurerm can't set).
+# Express doesn't support system-assigned identities, so the app gets a user-assigned one.
 resource "azurerm_container_app_environment" "main" {
   name                       = format(local.name, "cae")
   location                   = azurerm_resource_group.main.location
@@ -25,7 +27,8 @@ resource "azurerm_container_app" "api" {
   tags                         = local.tags
 
   identity {
-    type = "SystemAssigned"
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.app.id]
   }
 
   # Not a key: it only lets the app write telemetry. Kept as a secret so it stays out of logs.
@@ -68,6 +71,11 @@ resource "azurerm_container_app" "api" {
       cpu    = 0.5
       memory = "1Gi"
 
+      # DefaultAzureCredential picks the user-assigned identity by its client id.
+      env {
+        name  = "AZURE_CLIENT_ID"
+        value = azurerm_user_assigned_identity.app.client_id
+      }
       env {
         name  = "FOUNDRY_PROJECT_ENDPOINT"
         value = lookup(azurerm_cognitive_account_project.main.endpoints, "AI Foundry API", null)
@@ -115,6 +123,13 @@ resource "azurerm_container_app" "api" {
   }
 }
 
+resource "azurerm_user_assigned_identity" "app" {
+  name                = format(local.name, "app")
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  tags                = local.tags
+}
+
 # GitHub Actions identity. A user-assigned identity with federated credentials gives keyless
 # OIDC without an Entra app registration.
 resource "azurerm_user_assigned_identity" "ci" {
@@ -152,12 +167,12 @@ locals {
   # principal, scope and role for each assignment; read-only on Search for both.
   workload_roles = {
     app_foundry = {
-      principal_id = azurerm_container_app.api.identity[0].principal_id
+      principal_id = azurerm_user_assigned_identity.app.principal_id
       scope        = azurerm_cognitive_account.foundry.id
       role_id      = local.role_ids.foundry_user
     }
     app_search = {
-      principal_id = azurerm_container_app.api.identity[0].principal_id
+      principal_id = azurerm_user_assigned_identity.app.principal_id
       scope        = azurerm_search_service.main.id
       role_id      = local.role_ids.search_index_data_reader
     }
