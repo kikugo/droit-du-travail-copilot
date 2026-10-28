@@ -13,3 +13,7 @@ provider "azurerm" {
     "Microsoft.ManagedIdentity",
   ]
 }
+
+provider "azapi" {
+  subscription_id = var.subscription_id
+}

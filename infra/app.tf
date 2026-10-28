@@ -1,26 +1,49 @@
 # Phase 6: the container app that serves the agent, and the identity GitHub Actions uses.
 # Neither holds a key: the app uses a user-assigned identity, CI uses OIDC federation.
 
-# Azure creates this environment in Express mode (environmentMode, which azurerm can't set).
-# Express doesn't support system-assigned identities, so the app gets a user-assigned one.
-resource "azurerm_container_app_environment" "main" {
-  name                       = format(local.name, "cae")
-  location                   = azurerm_resource_group.main.location
-  resource_group_name        = azurerm_resource_group.main.name
-  logs_destination           = "log-analytics"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
-  tags                       = local.tags
+# azapi, not azurerm: azurerm 5.11 can't set environmentMode, and an environment created without
+# it came up in Express mode, where revisions never provisioned. A standard (workload profiles)
+# environment with the serverless Consumption profile scales to zero the same way.
+resource "azapi_resource" "environment" {
+  type                      = "Microsoft.App/managedEnvironments@2026-07-01"
+  name                      = format(local.name, "env")
+  parent_id                 = azurerm_resource_group.main.id
+  location                  = azurerm_resource_group.main.location
+  tags                      = local.tags
+  schema_validation_enabled = false # 2026-07-01 is newer than azapi 2.13's embedded schemas
 
-  # Azure adds the serverless Consumption profile to new environments; declaring it avoids drift.
-  workload_profile {
-    name                  = "Consumption"
-    workload_profile_type = "Consumption"
+  body = {
+    properties = {
+      environmentMode = "WorkloadProfiles"
+      workloadProfiles = [{
+        name                = "Consumption"
+        workloadProfileType = "Consumption"
+      }]
+      appLogsConfiguration = {
+        destination = "log-analytics"
+        logAnalyticsConfiguration = {
+          customerId = azurerm_log_analytics_workspace.main.workspace_id
+        }
+      }
+    }
   }
+
+  sensitive_body = {
+    properties = {
+      appLogsConfiguration = {
+        logAnalyticsConfiguration = {
+          sharedKey = azurerm_log_analytics_workspace.main.primary_shared_key
+        }
+      }
+    }
+  }
+
+  response_export_values = ["properties.environmentMode"]
 }
 
 resource "azurerm_container_app" "api" {
   name                         = format(local.name, "api")
-  container_app_environment_id = azurerm_container_app_environment.main.id
+  container_app_environment_id = azapi_resource.environment.id
   resource_group_name          = azurerm_resource_group.main.name
   revision_mode                = "Single"
   workload_profile_name        = "Consumption"
