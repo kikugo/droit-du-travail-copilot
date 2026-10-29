@@ -5,8 +5,12 @@
 
 Counts, not rates: smoke20 has 3 refusal rows, so one flipped answer moves refusal accuracy by
 33 points and the guide's "more than 5 points" rule would fail on noise. The gate fails when
-2 or more answerable rows lose their citation, or any refusal row now answers, or any calculator
-row goes wrong.
+2 or more answerable rows stop citing any gold article, or any refusal row now answers, or any
+calculator row goes wrong.
+
+Citations are compared on citation_hit (a gold article is cited), not strict citation accuracy:
+between two runs of the same code the model often adds a neighbouring article next to the gold
+one, which flips the strict score without the answer getting worse.
 """
 
 import argparse
@@ -28,6 +32,7 @@ def baseline_from(run: dict) -> dict:
                 "type": r["type"],
                 "answerable": r["answerable"],
                 "citation_accuracy": r["scores"]["citation_accuracy"],
+                "citation_hit": r["scores"]["citation_hit"],
                 "refused": r["scores"]["refused"],
                 **(
                     {"calculator_correct": r["scores"]["calculator_correct"]}
@@ -50,7 +55,7 @@ def compare(baseline: dict, run: dict) -> tuple[bool, list[str]]:
     citation, refusal, calc = [], [], []
     for rid, b in base.items():
         c = current[rid]
-        if b["answerable"] and b["citation_accuracy"] == 1 and c["citation_accuracy"] == 0:
+        if b["answerable"] and b["citation_hit"] == 1 and c["citation_hit"] == 0:
             citation.append(rid)
         if not b["answerable"] and b["refused"] and not c["refused"]:
             refusal.append(rid)

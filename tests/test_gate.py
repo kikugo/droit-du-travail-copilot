@@ -2,7 +2,8 @@ from eval.gate import baseline_from, compare
 
 
 def row(rid, type_, answerable, cit, refused, calc=None):
-    scores = {"citation_accuracy": cit, "refused": refused}
+    scores = {"citation_accuracy": cit, "citation_hit": cit if answerable else None,
+              "refused": refused}  # fmt: skip
     if calc is not None:
         scores["calculator_correct"] = calc
     return {"id": rid, "type": type_, "answerable": answerable, "question": f"q{rid}",
@@ -37,9 +38,9 @@ def test_identical_run_passes():
 
 
 def test_one_citation_regression_is_tolerated_two_fail():
-    assert compare(BASELINE, with_changes(g1={"citation_accuracy": 0.0}))[0]
+    assert compare(BASELINE, with_changes(g1={"citation_hit": 0.0}))[0]
     passed, lines = compare(
-        BASELINE, with_changes(g1={"citation_accuracy": 0.0}, g2={"citation_accuracy": 0.0})
+        BASELINE, with_changes(g1={"citation_hit": 0.0}, g2={"citation_hit": 0.0})
     )
     assert not passed and "['g1', 'g2']" in lines[0]
 
@@ -49,12 +50,17 @@ def test_any_refusal_regression_fails():
     assert not passed and "g4" in lines[1]
 
 
+def test_extra_citations_next_to_gold_do_not_fail():
+    changes = {"g1": {"citation_accuracy": 0.0}, "g2": {"citation_accuracy": 0.0}}
+    assert compare(BASELINE, with_changes(**changes))[0]
+
+
 def test_any_calculator_regression_fails():
     assert not compare(BASELINE, with_changes(g5={"calculator_correct": 0.0}))[0]
 
 
 def test_improvements_and_already_failing_rows_never_fail():
-    assert compare(BASELINE, with_changes(g3={"citation_accuracy": 1.0}))[0]
+    assert compare(BASELINE, with_changes(g3={"citation_hit": 1.0}))[0]
 
 
 def test_changed_row_set_fails_with_a_hint():
