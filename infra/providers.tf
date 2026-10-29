@@ -9,5 +9,11 @@ provider "azurerm" {
     "Microsoft.Search",
     "Microsoft.OperationalInsights",
     "Microsoft.Insights",
+    "Microsoft.App",
+    "Microsoft.ManagedIdentity",
   ]
+}
+
+provider "azapi" {
+  subscription_id = var.subscription_id
 }

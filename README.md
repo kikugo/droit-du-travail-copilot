@@ -1,16 +1,25 @@
 # Droit du Travail Copilot
 
+[![ci](https://github.com/kikugo/droit-du-travail-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/kikugo/droit-du-travail-copilot/actions/workflows/ci.yml)
+
 **FR.** Agent de questions-réponses sur le Code du travail, construit sur Azure AI Foundry. Il répond en français, cite les articles avec leur lien Légifrance et refuse de répondre quand les sources ne couvrent pas la question. Ce n'est pas un avis juridique.
 
 **EN.** A French labour-law question-answering agent on Azure AI Foundry: Azure AI Search for hybrid retrieval, Microsoft Agent Framework for the agent, Terraform for the infrastructure. Personal project, work in progress.
 
-## Status
+## Demo
 
-Work in progress. Results tables will be generated from `results/*.json` once the eval exists.
+Live at https://ddt-api-57nmb.mangosand-3751fcc9.swedencentral.azurecontainerapps.io (scales to zero, so the first question after a quiet spell takes a few extra seconds; questions are rate-limited per IP and per day).
+
+## How it runs
+
+- **App:** FastAPI plus a small React page in one image on GitHub Container Registry, served by Azure Container Apps (0 to 1 replica). The app signs in to Foundry and Search with a user-assigned managed identity that only has read roles; no keys.
+- **Traces:** OpenTelemetry with the Azure Monitor distro. Each request is one trace in Application Insights with a span per tool call (`execute_tool search_code`, `execute_tool preavis`, ...). Question and answer text stay out of telemetry.
+- **CI gate:** every PR runs ruff, pytest, terraform fmt/validate, a Docker build, and the 20-question smoke eval against the live Azure resources. The gate (`eval/gate.py`) compares each row with `results/baseline.json` and fails the PR when two answers lose their citation, or any refusal or calculator result regresses.
+- **Deploy:** merging to `main` builds and pushes the image and rolls the container app to it. GitHub Actions signs in to Azure with OIDC federated credentials on a user-assigned identity, so no secret is stored in GitHub.
 
 ## Infrastructure
 
-Everything on Azure is in `infra/` (Terraform, azurerm provider, local state): a resource group, a Foundry account with one project and two model deployments (chat and `text-embedding-3-small`), Azure AI Search on the Free tier, and Log Analytics with Application Insights.
+Everything on Azure is in `infra/` (Terraform, azurerm provider, local state): a resource group, a Foundry account with one project and two model deployments (chat and `text-embedding-3-small`), Azure AI Search on the Free tier, and Log Analytics with Application Insights. Phase 6 adds the Container Apps environment and app, and the CI identity with its federated credentials.
 
 ```bash
 make validate                               # fmt + validate, no Azure calls

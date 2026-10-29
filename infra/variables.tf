@@ -89,6 +89,48 @@ variable "log_daily_quota_gb" {
   default     = 0.15
 }
 
+variable "image" {
+  description = "Container image for the app, without the tag (public GHCR package)."
+  type        = string
+  default     = "ghcr.io/kikugo/droit-du-travail-copilot"
+}
+
+variable "ghcr_username" {
+  description = "GitHub user that owns the GHCR package."
+  type        = string
+  default     = "kikugo"
+}
+
+variable "ghcr_pull_token" {
+  description = "Classic GitHub PAT with only read:packages, for Container Apps to pull the image. Set it in terraform.tfvars (gitignored)."
+  type        = string
+  sensitive   = true
+}
+
+variable "image_tag" {
+  description = "Tag for the first deploy; CI rolls later tags with az containerapp update."
+  type        = string
+  default     = "latest"
+}
+
+variable "search_index" {
+  description = "Index the app queries (built in Phase 3)."
+  type        = string
+  default     = "articles-v1"
+}
+
+variable "daily_question_cap" {
+  description = "Questions /ask answers per UTC day before returning 429 (spend guard)."
+  type        = number
+  default     = 300
+}
+
+variable "github_oidc_repo" {
+  description = "The repo part of GitHub's OIDC subject claim. GitHub now sends owner@owner_id/name@repo_id (gh api repos/OWNER/NAME --jq '.owner.id, .id')."
+  type        = string
+  default     = "kikugo@83645138/droit-du-travail-copilot@1432202888"
+}
+
 variable "grant_current_user_access" {
   description = "Give the identity running terraform data-plane roles on Foundry and Search."
   type        = bool
