@@ -165,8 +165,8 @@ resource "azurerm_user_assigned_identity" "ci" {
 locals {
   # GitHub OIDC token subjects allowed to sign in as the CI identity.
   ci_subjects = {
-    pull-request = "repo:${var.github_repository}:pull_request"
-    main         = "repo:${var.github_repository}:ref:refs/heads/main"
+    pull-request = "repo:${var.github_oidc_repo}:pull_request"
+    main         = "repo:${var.github_oidc_repo}:ref:refs/heads/main"
   }
 }
 

@@ -125,10 +125,10 @@ variable "daily_question_cap" {
   default     = 300
 }
 
-variable "github_repository" {
-  description = "owner/name of the repo whose Actions may sign in as the CI identity."
+variable "github_oidc_repo" {
+  description = "The repo part of GitHub's OIDC subject claim. GitHub now sends owner@owner_id/name@repo_id (gh api repos/OWNER/NAME --jq '.owner.id, .id')."
   type        = string
-  default     = "kikugo/droit-du-travail-copilot"
+  default     = "kikugo@83645138/droit-du-travail-copilot@1432202888"
 }
 
 variable "grant_current_user_access" {
