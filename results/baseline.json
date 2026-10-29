@@ -1,0 +1,134 @@
+{
+  "config": {
+    "chat": "gpt-5.4-mini",
+    "index": "articles-v1",
+    "search": "https://ddt-search-57nmb.search.windows.net",
+    "code": "ca823d19bed14d8f"
+  },
+  "rows": {
+    "g001": {
+      "type": "lookup",
+      "answerable": true,
+      "citation_accuracy": 0.0,
+      "refused": false
+    },
+    "g002": {
+      "type": "lookup",
+      "answerable": true,
+      "citation_accuracy": 1.0,
+      "refused": false
+    },
+    "g003": {
+      "type": "lookup",
+      "answerable": true,
+      "citation_accuracy": 1.0,
+      "refused": false
+    },
+    "g004": {
+      "type": "lookup",
+      "answerable": true,
+      "citation_accuracy": 0.0,
+      "refused": false
+    },
+    "g005": {
+      "type": "lookup",
+      "answerable": true,
+      "citation_accuracy": 0.0,
+      "refused": false
+    },
+    "g006": {
+      "type": "lookup",
+      "answerable": true,
+      "citation_accuracy": 0.0,
+      "refused": false
+    },
+    "g007": {
+      "type": "lookup",
+      "answerable": true,
+      "citation_accuracy": 0.0,
+      "refused": false
+    },
+    "g025": {
+      "type": "num_in_question",
+      "answerable": true,
+      "citation_accuracy": 0.0,
+      "refused": false
+    },
+    "g026": {
+      "type": "num_in_question",
+      "answerable": true,
+      "citation_accuracy": 1.0,
+      "refused": false
+    },
+    "g027": {
+      "type": "num_in_question",
+      "answerable": true,
+      "citation_accuracy": 0.0,
+      "refused": false
+    },
+    "g028": {
+      "type": "num_in_question",
+      "answerable": true,
+      "citation_accuracy": 0.0,
+      "refused": false
+    },
+    "g055": {
+      "type": "calculator",
+      "answerable": true,
+      "citation_accuracy": 1.0,
+      "refused": false,
+      "calculator_correct": 1.0
+    },
+    "g056": {
+      "type": "calculator",
+      "answerable": true,
+      "citation_accuracy": 1.0,
+      "refused": false,
+      "calculator_correct": 1.0
+    },
+    "g057": {
+      "type": "calculator",
+      "answerable": true,
+      "citation_accuracy": 1.0,
+      "refused": false,
+      "calculator_correct": 1.0
+    },
+    "g058": {
+      "type": "calculator",
+      "answerable": true,
+      "citation_accuracy": 1.0,
+      "refused": false,
+      "calculator_correct": 1.0
+    },
+    "g045": {
+      "type": "convention",
+      "answerable": true,
+      "citation_accuracy": 1.0,
+      "refused": false
+    },
+    "g046": {
+      "type": "convention",
+      "answerable": true,
+      "citation_accuracy": 1.0,
+      "refused": false
+    },
+    "g075": {
+      "type": "refusal",
+      "answerable": false,
+      "citation_accuracy": 1.0,
+      "refused": true
+    },
+    "g076": {
+      "type": "refusal",
+      "answerable": false,
+      "citation_accuracy": 1.0,
+      "refused": true
+    },
+    "g077": {
+      "type": "refusal",
+      "answerable": false,
+      "citation_accuracy": 1.0,
+      "refused": true
+    }
+  }
+}
