@@ -1,6 +1,6 @@
 TF := terraform -chdir=infra
 
-.PHONY: init fmt fmt-check validate plan corpus env embed index query ask smoke serve draft review eval-retrieval eval-agent report gate baseline corpus-download corpus-release docker-build docker-run gh-vars
+.PHONY: init fmt fmt-check validate plan corpus env embed index query ask smoke serve draft review eval-retrieval eval-agent report gate baseline corpus-download corpus-release docker-build docker-run gh-vars wake
 
 init:
 	$(TF) init
@@ -102,3 +102,9 @@ gh-vars:
 	@terraform -chdir=infra output -json | python3 -c 'import json,sys; o=json.load(sys.stdin); v={"AZURE_CLIENT_ID":"ci_client_id","AZURE_TENANT_ID":"tenant_id","AZURE_SUBSCRIPTION_ID":"subscription_id","FOUNDRY_PROJECT_ENDPOINT":"project_endpoint","AZURE_OPENAI_ENDPOINT":"openai_endpoint","AZURE_SEARCH_ENDPOINT":"search_endpoint","CHAT_DEPLOYMENT":"chat_deployment","EMBEDDING_DEPLOYMENT":"embedding_deployment","CONTAINER_APP_NAME":"container_app_name","RESOURCE_GROUP":"resource_group_name","APP_URL":"app_url"}; print("\n".join(k + "=" + o[t]["value"] for k, t in v.items()))' > .gh-vars.tmp
 	gh variable set --env-file .gh-vars.tmp
 	rm .gh-vars.tmp
+
+# the app scales to zero; run this about 30 s before a demo so the first visitor doesn't wait
+wake:
+	@url=$$(terraform -chdir=infra output -raw app_url); \
+	for i in $$(seq 1 12); do curl -fsS -m 30 "$$url/health" >/dev/null && echo "awake: $$url" && exit 0; sleep 5; done; \
+	echo "no answer from $$url/health" && exit 1

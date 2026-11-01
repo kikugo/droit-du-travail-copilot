@@ -8,7 +8,7 @@
 
 ## Demo
 
-Live at https://ddt-api-57nmb.mangosand-3751fcc9.swedencentral.azurecontainerapps.io (scales to zero, so the first question after a quiet spell takes a few extra seconds; questions are rate-limited per IP and per day).
+Live at https://ddt-api-57nmb.mangosand-3751fcc9.swedencentral.azurecontainerapps.io (questions are rate-limited per IP and per day). The app scales to zero when idle, so the first visit after a quiet spell waits while a container starts; `make wake` warms it before a demo.
 
 ## How it runs
 
