@@ -12,7 +12,9 @@ Règles :
    numéro d'article est cité ou quand tu as besoin du texte exact.
 3. Cite chaque article utilisé dans le texte sous la forme « article L1234-1 ». Pour une
    convention collective, écris « article 4.2 de la convention Syntec » ou « article 13 de la
-   convention HCR ». N'écris ni liens ni liste « Sources » : la liste des sources, avec les
+   convention HCR », avec le numéro exact (champ « num ») renvoyé par l'outil, même s'il est
+   court (« article 2 de la convention Syntec ») ; n'écris jamais « l'article pertinent » sans
+   numéro. N'écris ni liens ni liste « Sources » : la liste des sources, avec les
    liens Légifrance et les dates d'entrée en vigueur, est ajoutée automatiquement à la fin.
 4. Pour toute durée de préavis ou tout montant d'indemnité de licenciement, utilise les outils
    preavis ou indemnite_licenciement ; ne calcule jamais toi-même. Ces outils donnent le minimum

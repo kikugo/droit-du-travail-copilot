@@ -1,4 +1,5 @@
 import json
+import re
 from collections import defaultdict
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
@@ -25,8 +26,16 @@ class ToolCall:
     texts: list[str] = field(default_factory=list)  # what the tool showed the model (eval context)
 
 
-def _cite(num: str, url: str, source: str, date: str = "") -> dict:
-    return {"num": num, "url": url, "source": source, "date_debut_vigueur": date}
+AVENANT = re.compile(r"\bavenant\s*(?:n\s*[°o]\.?\s*)?(\d+)\b", re.IGNORECASE)
+
+
+def _cite(num: str, url: str, source: str, date: str = "", path: str = "") -> dict:
+    cite = {"num": num, "url": url, "source": source, "date_debut_vigueur": date}
+    # Convention salary texts number their articles 1er, 2, ...; answers name the avenant instead.
+    m = AVENANT.search(path.split(" > ")[-1]) if source != "code" else None
+    if m:
+        cite["avenant"] = m.group(1)
+    return cite
 
 
 class Corpus:
@@ -120,7 +129,7 @@ def make_tools(ctx: ToolContext, calls: list[ToolCall]) -> list:
             for h in hits
         ]
         _record("search_code", {"query": query, "source": source},
-                [_cite(h.num, h.url, h.source, h.date_debut_vigueur) for h in hits],
+                [_cite(h.num, h.url, h.source, h.date_debut_vigueur, h.path) for h in hits],
                 [f"{r['num']} ({r['source']}) : {r['texte']}" for r in results])  # fmt: skip
         return json.dumps({"resultats": results}, ensure_ascii=False)
 
