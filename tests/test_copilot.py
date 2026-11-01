@@ -20,7 +20,7 @@ from copilot.core import (
 )
 from copilot.piste import PisteClient, PisteError
 from copilot.prompts import NOTICE
-from copilot.tools import Corpus, ToolCall, ToolContext, make_tools
+from copilot.tools import Corpus, ToolCall, ToolContext, _cite, make_tools
 from ingest.models import Article
 from retrieval.search import Hit
 
@@ -409,3 +409,14 @@ def test_finalize_drops_model_sources_list_and_flags_unretrieved_nums():
     assert answer.count("Sources :") == 1
     assert [c["num"] for c in citations] == ["L3141-4"]
     assert unsupported == ["L3141-3"]
+
+
+def test_convention_article_cited_by_its_avenant():
+    art = _cite("2", "https://www.legifrance.gouv.fr/conv_coll/id/KALIARTI1", "IDCC 1486", "2023-01-01",
+                "Syntec > Textes Salaires > Avenant n° 47 du 31 mars 2022 relatif aux salaires minimaux")  # fmt: skip
+    assert art["avenant"] == "47"
+    calls = [ToolCall("search_code", {}, ["2"], [art])]
+    answer = "Le minimum Syntec est de 2 241 € selon l'avenant n° 47 du 31 mars 2022."
+    assert extract_citations(answer, calls) == [{k: v for k, v in art.items() if k != "avenant"}]
+    assert extract_citations("Selon l'avenant n° 47, le minimum est de 2 241 €.", calls) == []
+    assert extract_citations("Le minimum Syntec suit l'avenant n° 43.", calls) == []

@@ -8,7 +8,7 @@ from opentelemetry import trace
 
 from copilot import telemetry
 from copilot.prompts import INSTRUCTIONS, NOTICE
-from copilot.tools import Corpus, ToolCall, ToolContext, make_tools
+from copilot.tools import AVENANT, Corpus, ToolCall, ToolContext, make_tools
 
 ARTICLES = Path("data/articles.jsonl")
 CODE_NUM = re.compile(r"\b[LRDA]\.?\s?\d{3,4}(?:-\d+)*\b")
@@ -71,8 +71,10 @@ def _normalise_num(num: str) -> str:
 
 def extract_citations(answer: str, calls: list[ToolCall]) -> list[dict]:
     """Articles returned by a tool that the answer cites: code articles by number, convention
-    articles as "article 4.2" plus the convention's name, or either by an exact link."""
+    articles as "article 4.2" or by their avenant ("avenant n° 47") plus the convention's name,
+    or either by an exact link."""
     cited_nums = {_normalise_num(m) for m in CODE_NUM.findall(answer)}
+    cited_avenants = set(AVENANT.findall(answer))
     lower = answer.lower()
     seen, out = set(), []
     for call in calls:
@@ -84,12 +86,14 @@ def extract_citations(answer: str, calls: list[ToolCall]) -> list[dict]:
                 cited = _normalise_num(art["num"]) in cited_nums
             else:
                 pattern = rf"\b(?:article|art\.)\s*{re.escape(art['num'])}(?![\d.])"
-                cited = bool(re.search(pattern, answer, re.IGNORECASE)) and any(
+                by_num = bool(re.search(pattern, answer, re.IGNORECASE))
+                by_avenant = art.get("avenant") is not None and art["avenant"] in cited_avenants
+                cited = (by_num or by_avenant) and any(
                     k in lower for k in SOURCE_KEYWORDS.get(art["source"], ())
                 )
             if cited or (art["url"] and art["url"] in answer):
                 seen.add(key)
-                out.append(art)
+                out.append({k: v for k, v in art.items() if k != "avenant"})
     return out
 
 
