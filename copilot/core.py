@@ -7,7 +7,7 @@ from pathlib import Path
 from opentelemetry import trace
 
 from copilot import telemetry
-from copilot.prompts import INSTRUCTIONS, NOTICE
+from copilot.prompts import INSTRUCTIONS, NOTICE, REFUSAL
 from copilot.tools import AVENANT, Corpus, ToolCall, ToolContext, make_tools
 
 ARTICLES = Path("data/articles.jsonl")
@@ -137,11 +137,40 @@ def unsupported_nums(body: str, calls: list[ToolCall]) -> list[str]:
     return seen
 
 
+AMOUNT = re.compile(r"\d{1,3}(?:[ .  ]\d{3})+|\d{4,}")
+
+
+def _amounts(text: str) -> set[str]:
+    """Figures of 1 000 or more, separators dropped: '2 241 €' and '2241' both give '2241'."""
+    return {re.sub(r"\D", "", m) for m in AMOUNT.findall(text)}
+
+
+def cite_by_figures(answer: str, calls: list[ToolCall]) -> list[dict]:
+    """Fallback for convention answers that state a figure but no article or avenant: cite the
+    convention articles whose returned text contains that figure. Salary grids carry the amounts,
+    so this points at the grid the number was read from, not just the top search hit."""
+    figures = _amounts(answer)
+    if not figures:
+        return []
+    seen, out = set(), []
+    for call in calls:
+        for art, text in zip(call.articles, call.texts, strict=False):
+            key = (art["num"], art["source"])
+            text = text.split(" : ", 1)[-1]  # drop the "num (IDCC 1486) :" label
+            if art["source"] == "code" or key in seen or not figures & _amounts(text):
+                continue
+            seen.add(key)
+            out.append({k: v for k, v in art.items() if k != "avenant"})
+    return out
+
+
 def finalize(text: str, calls: list[ToolCall]) -> tuple[str, list[dict], list[str]]:
     body = strip_links(collapse_repeats(text or ""))
     body = "\n".join(line for line in body.splitlines() if NOTICE not in line).strip()
     body = strip_model_sources(body)
     citations = extract_citations(body, calls)
+    if not citations and REFUSAL.rstrip(".") not in body:
+        citations = cite_by_figures(body, calls)
     blocks = [body, sources_block(citations), NOTICE]
     return "\n\n".join(b for b in blocks if b), citations, unsupported_nums(body, calls)
 

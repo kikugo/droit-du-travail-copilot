@@ -420,3 +420,27 @@ def test_convention_article_cited_by_its_avenant():
     assert extract_citations(answer, calls) == [{k: v for k, v in art.items() if k != "avenant"}]
     assert extract_citations("Selon l'avenant n° 47, le minimum est de 2 241 €.", calls) == []
     assert extract_citations("Le minimum Syntec suit l'avenant n° 43.", calls) == []
+
+
+def _grid_call():
+    old = _cite("1er", "u-old", "IDCC 1486", "2013-07-01", "Syntec > Avenant n° 43 du 21 mai 2013")
+    new = _cite("2", "u-new", "IDCC 1486", "2023-01-01", "Syntec > Avenant n° 47 du 31 mars 2022")
+    texts = ["1er (IDCC 1486) : la valeur du point est portée à 2,46 €",
+             "2 (IDCC 1486) : position 2.1, coefficient 105 : 2 241 € ; coefficient 115 : 2 454 €"]  # fmt: skip
+    return [ToolCall("search_code", {"source": "IDCC 1486"}, ["1er", "2"], [old, new], texts)]
+
+
+def test_uncited_convention_answer_falls_back_to_the_article_holding_the_figure():
+    answer = f"Le minimum Syntec (IDCC 1486) en position 2.1 est de 2 241 € brut par mois.\n\n{NOTICE}"
+    _, citations, _ = finalize(answer, _grid_call())
+    assert [c["url"] for c in citations] == ["u-new"]
+    assert "avenant" not in citations[0]
+
+
+def test_figure_fallback_skips_refusals_small_numbers_and_cited_answers():
+    calls = _grid_call()
+    assert finalize("Les sources dont je dispose ne couvrent pas cette question. 2 241", calls)[1] == []
+    assert finalize("La position 2.1 a le coefficient 105.", calls)[1] == []
+    assert finalize("Voir la convention IDCC 1486.", calls)[1] == []  # the label isn't a figure
+    cited = finalize("Selon l'article 1er de la convention Syntec, 2 241 €.", calls)[1]
+    assert [c["url"] for c in cited] == ["u-old"]  # an explicit citation wins over the fallback
