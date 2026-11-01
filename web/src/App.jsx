@@ -15,6 +15,11 @@ function body(answer) {
   return answer.split("\n\nSources :")[0].replace(NOTICE, "").trim();
 }
 
+// The model writes **bold**; show it as bold instead of raw asterisks (React escapes the rest).
+function withBold(text) {
+  return text.split(/\*\*(.+?)\*\*/g).map((part, i) => (i % 2 ? <strong key={i}>{part}</strong> : part));
+}
+
 export default function App() {
   const [question, setQuestion] = useState("");
   const [result, setResult] = useState(null);
@@ -85,7 +90,7 @@ export default function App() {
 
       {result && (
         <section className="answer">
-          <p className="text">{body(result.answer)}</p>
+          <p className="text">{withBold(body(result.answer))}</p>
           {result.citations.length > 0 && (
             <>
               <h2>Sources</h2>
