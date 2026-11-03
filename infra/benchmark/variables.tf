@@ -18,3 +18,8 @@ variable "name" {
   description = "Search service name (globally unique)."
   type        = string
 }
+
+variable "foundry_name" {
+  description = "Existing Foundry account (terraform -chdir=infra output foundry_name)."
+  type        = string
+}
