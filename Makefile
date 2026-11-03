@@ -1,6 +1,6 @@
 TF := terraform -chdir=infra
 
-.PHONY: init fmt fmt-check validate plan corpus env embed index query ask smoke serve draft review eval-retrieval eval-agent report gate baseline corpus-download corpus-release docker-build docker-run gh-vars wake
+.PHONY: init fmt fmt-check validate plan corpus env embed index query ask smoke serve draft review eval-retrieval eval-agent report gate baseline corpus-download corpus-release docker-build docker-run gh-vars wake agentic-setup
 
 init:
 	$(TF) init
@@ -58,7 +58,11 @@ review:
 	uv run python -m eval.review
 
 eval-retrieval:
-	uv run python -m eval.run_retrieval --label $(or $(LABEL),free) $(if $(ENDPOINT),--search-endpoint $(ENDPOINT)) $(if $(INDEX),--index $(INDEX))
+	uv run python -m eval.run_retrieval --label $(or $(LABEL),free) $(if $(ENDPOINT),--search-endpoint $(ENDPOINT)) $(if $(INDEX),--index $(INDEX)) $(if $(AGENTIC),--agentic)
+
+# Foundry IQ objects on the Basic benchmark service (ENDPOINT=https://...search.windows.net)
+agentic-setup:
+	uv run python -m retrieval.agentic --search-endpoint $(ENDPOINT) setup
 
 eval-agent:
 	uv run python -m eval.run_agent $(if $(SUBSET),--subset $(SUBSET))
