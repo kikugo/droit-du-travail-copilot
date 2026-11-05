@@ -134,3 +134,38 @@ def test_report_adds_foundry_iq_rows_and_planner_cost_table():
     table = retrieval_table({"label": "basic", "n_questions": 1, "modes": [mode]})
     assert "Foundry IQ, low effort (gpt-5.4-mini planner)" in table
     assert "Planner tokens per query" in table and "| 1200 |" in table
+
+
+def test_client_retries_timeouts_and_5xx_then_succeeds(monkeypatch):
+    monkeypatch.setattr("retrieval.agentic.time.sleep", lambda s: None)
+    calls = {"n": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise httpx.ReadTimeout("slow", request=request)
+        if calls["n"] == 2:
+            return httpx.Response(503, json={})
+        return httpx.Response(200, json={"references": [], "activity": []})
+
+    client = AgenticClient(
+        ENDPOINT, lambda: "t", httpx.Client(transport=httpx.MockTransport(handler))
+    )
+    got, _ = client.retrieve("low", "q", BY_KEY)
+    assert calls["n"] == 3 and got.ranked == []
+
+
+def test_client_does_not_retry_bad_requests(monkeypatch):
+    monkeypatch.setattr("retrieval.agentic.time.sleep", lambda s: None)
+    calls = {"n": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        return httpx.Response(400, json={"error": "bad"})
+
+    client = AgenticClient(
+        ENDPOINT, lambda: "t", httpx.Client(transport=httpx.MockTransport(handler))
+    )
+    with __import__("pytest").raises(RuntimeError, match="400"):
+        client.retrieve("low", "q", BY_KEY)
+    assert calls["n"] == 1

@@ -23,7 +23,7 @@ SEARCH_SCOPE = "https://search.azure.com/.default"
 KNOWLEDGE_SOURCE = "ddt-articles-ks"
 VECTORIZER = "aoai-embedding"
 KNOWLEDGE_BASES = {"minimal": "ddt-kb-minimal", "low": "ddt-kb-low"}
-MAX_DOCUMENTS = 10  # same depth as the classic modes (MRR@10)
+MAX_DOCUMENTS = 50  # service minimum (50-200); the eval scores the top 10 like the classic modes
 
 
 def vectorizer_patch(index: dict, openai_endpoint: str, deployment: str) -> dict:
@@ -147,17 +147,29 @@ class AgenticClient:
     def from_credential(cls, endpoint: str, credential) -> "AgenticClient":
         return cls(endpoint, lambda: credential.get_token(SEARCH_SCOPE).token)
 
-    def _call(self, method: str, path: str, body: dict | None = None) -> dict:
-        resp = self.http.request(
-            method,
-            f"{self.endpoint}{path}",
-            params={"api-version": API_VERSION},
-            headers={"Authorization": f"Bearer {self.token()}"},
-            json=body,
-        )
-        if resp.status_code >= 400:
-            raise RuntimeError(f"{method} {path} -> {resp.status_code}: {resp.text[:500]}")
-        return resp.json() if resp.content else {}
+    def _call(self, method: str, path: str, body: dict | None = None, attempts: int = 3) -> dict:
+        """Timeouts, 429 and 5xx are retried with backoff; other errors raise at once."""
+        for attempt in range(1, attempts + 1):
+            try:
+                resp = self.http.request(
+                    method,
+                    f"{self.endpoint}{path}",
+                    params={"api-version": API_VERSION},
+                    headers={"Authorization": f"Bearer {self.token()}"},
+                    json=body,
+                )
+            except httpx.TransportError as err:
+                if attempt == attempts:
+                    raise RuntimeError(f"{method} {path} -> {type(err).__name__}") from err
+                time.sleep(2**attempt)
+                continue
+            if (resp.status_code == 429 or resp.status_code >= 500) and attempt < attempts:
+                time.sleep(2**attempt)
+                continue
+            if resp.status_code >= 400:
+                raise RuntimeError(f"{method} {path} -> {resp.status_code}: {resp.text[:500]}")
+            return resp.json() if resp.content else {}
+        raise AssertionError("unreachable")
 
     def add_vectorizer(self, index_name: str, openai_endpoint: str, deployment: str) -> None:
         index = self._call("GET", f"/indexes/{index_name}")
