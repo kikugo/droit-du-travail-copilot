@@ -41,6 +41,12 @@ def test_app_scales_to_zero_and_one_replica_with_no_keys():
     assert 'issuer                    = "https://token.actions.githubusercontent.com"' in app
 
 
+def test_benchmark_search_identity_can_call_foundry():
+    tf = (BENCHMARK / "main.tf").read_text(encoding="utf-8")
+    assert 'type = "SystemAssigned"' in tf
+    assert "a97b65f3-24c7-4388-baec-2e87135dc908" in tf  # Cognitive Services User
+
+
 def test_benchmark_validate():
     init = subprocess.run(
         ["terraform", f"-chdir={BENCHMARK}", "init", "-backend=false", "-input=false"],

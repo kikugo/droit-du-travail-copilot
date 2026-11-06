@@ -2,6 +2,11 @@
 
     uv run python -m eval.run_retrieval --label free
     uv run python -m eval.run_retrieval --label basic --search-endpoint https://... --index articles-full
+    uv run python -m eval.run_retrieval --label basic --search-endpoint https://... --agentic
+
+--agentic adds two Foundry IQ rows (retrieval/agentic.py): a knowledge base with minimal
+reasoning effort (no LLM) and one with a gpt-5.4-mini planner at low effort. They need a Basic
+service set up with `make agentic-setup`; planner tokens are recorded and priced per query.
 
 Query embeddings are cached on disk (eval/cache.py), so a rerun only pays for search calls,
 which are free on both tiers. A mode the service refuses (semantic on the free tier) is
@@ -19,7 +24,7 @@ from azure.core.exceptions import HttpResponseError
 
 from eval.cache import DiskCache, key
 from eval.golden import load_golden
-from eval.metrics import bootstrap_ci, keys, mean, percentile, retrieval_scores
+from eval.metrics import bootstrap_ci, cost_usd, keys, mean, percentile, retrieval_scores
 from retrieval.search import Hit, Mode, build_query_args
 
 TOP_K = 10  # MRR@10 needs ten; hit@k and recall@5 use the top of the same list
@@ -63,6 +68,30 @@ def run_mode(search_client, rows, mode: Mode, vectors: dict[str, list[float]]) -
     }
 
 
+def run_agentic_mode(agentic, rows, effort: str, by_key, price: dict | None) -> dict[str, Any]:
+    mode = f"agentic_{effort}"
+    per_question, latencies, tin, tout = [], [], 0, 0
+    for row in rows:
+        try:
+            got, elapsed = agentic.retrieve(effort, row["question"], by_key)
+        except RuntimeError as err:
+            return {"mode": mode, "available": False, "error": str(err)[:200]}
+        latencies.append(elapsed)
+        tin, tout = tin + got.input_tokens, tout + got.output_tokens
+        scores = retrieval_scores(got.ranked, keys(row["gold"]))
+        per_question.append(
+            {"id": row["id"], "type": row["type"], "ranked": got.ranked[:TOP_K], **scores}
+        )
+    out = {"mode": mode, "available": True, **summarise(per_question, latencies)}
+    n = len(per_question) or 1
+    out["totals"]["planner_tokens_per_query"] = (tin + tout) / n
+    out["totals"]["usd_per_1000_queries"] = (
+        cost_usd(tin, tout, price) / n * 1000 if price and (tin or tout) else 0.0
+    )
+    out["questions"] = per_question
+    return out
+
+
 def summarise(per_question: list[dict], latencies: list[float]) -> dict[str, Any]:
     metrics = ["hit@1", "hit@3", "hit@5", "mrr@10", "recall@5"]
     totals = {m: mean([q[m] for q in per_question]) for m in metrics}
@@ -80,10 +109,16 @@ def summarise(per_question: list[dict], latencies: list[float]) -> dict[str, Any
     return {"n": len(per_question), "totals": totals, "by_type": by_type}
 
 
-def run(clients, rows, label: str, cache: DiskCache) -> dict[str, Any]:
+def run(clients, rows, label: str, cache: DiskCache, agentic=None) -> dict[str, Any]:
+    """`agentic` is None or (AgenticClient, by_key, planner price) for the Foundry IQ rows."""
     answerable = [r for r in rows if r["answerable"]]
     vectors = {r["id"]: query_vector(clients, cache, r["question"]) for r in answerable}
     modes = [run_mode(clients.search_client, answerable, m, vectors) for m in Mode]
+    if agentic is not None:
+        client, by_key, price = agentic
+        modes += [
+            run_agentic_mode(client, answerable, e, by_key, price) for e in ("minimal", "low")
+        ]
     return {
         "label": label,
         "search_endpoint": clients.settings.search_endpoint,
@@ -102,6 +137,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--label", required=True, help="free or basic: names the results file")
     parser.add_argument("--search-endpoint", help="override AZURE_SEARCH_ENDPOINT (Basic service)")
     parser.add_argument("--index", help="override SEARCH_INDEX")
+    parser.add_argument("--agentic", action="store_true", help="add the Foundry IQ rows (Basic)")
     args = parser.parse_args(argv)
 
     from retrieval.config import Clients, Settings
@@ -112,7 +148,24 @@ def main(argv: list[str] | None = None) -> None:
     if args.index:
         settings = replace(settings, search_index=args.index)
     cache = DiskCache()
-    result = run(Clients(settings), load_golden(), args.label, cache)
+    clients = Clients(settings)
+    agentic = None
+    if args.agentic:
+        import os
+
+        import yaml
+
+        from retrieval.__main__ import load_articles
+        from retrieval.agentic import AgenticClient, keys_by_doc
+
+        planner = os.environ["CHAT_DEPLOYMENT"]
+        prices = yaml.safe_load((Path(__file__).parent / "prices.yaml").read_text(encoding="utf-8"))
+        agentic = (
+            AgenticClient.from_credential(settings.search_endpoint, clients.credential),
+            keys_by_doc(load_articles()),
+            prices["models"].get(planner),
+        )
+    result = run(clients, load_golden(), args.label, cache, agentic)
     out = Path(f"results/retrieval_{args.label}.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

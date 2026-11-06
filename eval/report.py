@@ -20,6 +20,8 @@ MODE_LABELS = {
     "vector": "Vector",
     "hybrid": "Hybrid (RRF)",
     "hybrid_semantic": "Hybrid + semantic ranker",
+    "agentic_minimal": "Foundry IQ, minimal effort (no LLM)",
+    "agentic_low": "Foundry IQ, low effort (gpt-5.4-mini planner)",
 }
 
 
@@ -43,6 +45,9 @@ def retrieval_table(data: dict) -> str:
         "| Mode | hit@1 | hit@3 | hit@5 | MRR@10 | recall@5 | p95 |",
         "|---|---|---|---|---|---|---|",
     ]
+    agentic = [
+        m for m in data["modes"] if m["available"] and "planner_tokens_per_query" in m["totals"]
+    ]
     for m in data["modes"]:
         label = MODE_LABELS.get(m["mode"], m["mode"])
         if not m["available"]:
@@ -53,6 +58,15 @@ def retrieval_table(data: dict) -> str:
             f"| {label} | {pct(t['hit@1'])} | {pct(t['hit@3'])} | {pct(t['hit@5'])}{ci(t['hit@5_ci'])}"
             f" | {t['mrr@10']:.2f} | {pct(t['recall@5'])} | {t['p95_ms']:.0f} ms |"
         )
+    if agentic:
+        lines += ["", "| Foundry IQ row | Planner tokens per query | Planner cost per 1,000 queries |",
+                  "|---|---|---|"]  # fmt: skip
+        for m in agentic:
+            t = m["totals"]
+            lines.append(
+                f"| {MODE_LABELS.get(m['mode'], m['mode'])} | {t['planner_tokens_per_query']:.0f}"
+                f" | ${t['usd_per_1000_queries']:.2f} |"
+            )
     return "\n".join(lines)
 
 
