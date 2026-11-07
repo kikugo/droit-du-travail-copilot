@@ -1,4 +1,4 @@
-"""Draft golden-set candidates with gpt-5.4-mini; Karthik reviews every one in eval.review.
+"""Draft golden-set candidates with gpt-5.4-mini; an LLM reviewer then keeps, edits or drops each one.
 
     uv run python -m eval.draft_questions --dry-run   # counts and token estimate, no calls
     uv run python -m eval.draft_questions             # costs tokens; cached, so reruns are free
