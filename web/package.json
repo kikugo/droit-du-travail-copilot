@@ -8,6 +8,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@fontsource/spectral": "5.2.8",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
