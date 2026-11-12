@@ -10,6 +10,8 @@
 
 Live at https://ddt-api-57nmb.mangosand-3751fcc9.swedencentral.azurecontainerapps.io (questions are rate-limited per IP and per day). The app scales to zero when idle, so the first visit after a quiet spell waits while a container starts; `make wake` warms it before a demo.
 
+![A notice-period question answered with its source article, Article L1234-1, and its date in force](docs/images/cited-answer.webp)
+
 ![The page answering a question on the notice period, with the cited Code du travail article in the margin](docs/page.png)
 
 ## How it runs
