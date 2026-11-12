@@ -10,6 +10,8 @@
 
 Live at https://ddt-api-57nmb.mangosand-3751fcc9.swedencentral.azurecontainerapps.io (questions are rate-limited per IP and per day). The app scales to zero when idle, so the first visit after a quiet spell waits while a container starts; `make wake` warms it before a demo.
 
+![The page answering a question on the notice period, with the cited Code du travail article in the margin](docs/page.png)
+
 ## How it runs
 
 - **App:** FastAPI plus a small React page in one image on GitHub Container Registry, served by Azure Container Apps (0 to 1 replica). The app signs in to Foundry and Search with a user-assigned managed identity that only has read roles; no keys.
