@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { citedIn, errorMessage } from "./answer.js";
+
 const NOTICE = "Ceci n'est pas un avis juridique.";
 const EXAMPLES = [
   "Quelle est la durée du préavis de licenciement après 3 ans d'ancienneté ?",
@@ -39,7 +41,7 @@ function body(answer) {
 function withBold(text, citations) {
   return text.split(/\*\*(.+?)\*\*/g).map((part, i) => {
     if (i % 2 === 0) return part;
-    const cited = citations.find((c) => c.url && c.num.length > 3 && part.includes(c.num));
+    const cited = citedIn(part, citations);
     return cited ? (
       <a key={i} href={cited.url} target="_blank" rel="noreferrer">
         <strong>{part}</strong>
@@ -107,10 +109,8 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: q }),
       });
-      const data = await resp.json();
-      if (resp.status === 429) setError(`Limite atteinte. ${data.detail}`);
-      else if (!resp.ok) setError("La question n'a pas pu être traitée. Réessayez.");
-      else setResult(data);
+      if (!resp.ok) setError(await errorMessage(resp));
+      else setResult(await resp.json());
     } catch {
       setError("Le service ne répond pas. Réessayez dans un instant.");
     } finally {

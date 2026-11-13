@@ -27,7 +27,7 @@ jobs:
       - run: make fmt-check
       - run: make validate
       - run: uv run pytest -q
-      - run: npm ci --no-fund --no-audit && npm run build
+      - run: npm ci --no-fund --no-audit && npm test && npm run build
         working-directory: web
 
   smoke-eval:
