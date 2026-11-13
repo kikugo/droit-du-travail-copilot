@@ -10,6 +10,7 @@ from fastapi.testclient import TestClient
 from copilot import calculators
 from copilot.api import create_app
 from copilot.core import (
+    MAX_OUTPUT_TOKENS,
     AskResult,
     Copilot,
     collapse_repeats,
@@ -20,7 +21,7 @@ from copilot.core import (
 )
 from copilot.piste import PisteClient, PisteError
 from copilot.prompts import NOTICE
-from copilot.tools import Corpus, ToolCall, ToolContext, _cite, make_tools
+from copilot.tools import MAX_ARTICLE, Corpus, ToolCall, ToolContext, _cite, make_tools
 from ingest.models import Article
 from retrieval.search import Hit
 
@@ -247,6 +248,19 @@ def test_get_article_survives_piste_failure():
     t, _ = tools(piste=SimpleNamespace(get_article=boom))
     (a,) = json.loads(t["get_article"]("L1234-1"))["articles"]
     assert a["texte"] == "Préavis..." and "indisponible" in a["origine"]
+
+
+def test_get_article_truncates_long_texts():
+    long = SimpleNamespace(text="x" * 50_000, date_debut_vigueur="")
+    t, calls = tools(piste=SimpleNamespace(get_article=lambda id: long))
+    (a,) = json.loads(t["get_article"]("L1234-1"))["articles"]
+    assert len(a["texte"]) == MAX_ARTICLE
+    assert len(calls[0].texts[0]) < MAX_ARTICLE + 50
+
+
+def test_default_agent_caps_output_tokens():
+    copilot = Copilot(chat_client=object(), ctx=ToolContext(search=None, corpus=CORPUS))
+    assert copilot._default_agent([]).default_options["max_tokens"] == MAX_OUTPUT_TOKENS
 
 
 def test_get_article_kali_needs_source_and_unknown_num_errors():

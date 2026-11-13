@@ -14,6 +14,7 @@ from copilot.piste import PisteClient, PisteError
 from ingest.models import Article
 
 MAX_TEXT = 1500  # characters of article text per search hit sent to the model
+MAX_ARTICLE = 4000  # characters per get_article result; 99% of articles are shorter
 SOURCES = ("code", "IDCC 1486", "IDCC 1979")
 
 
@@ -157,12 +158,12 @@ def make_tools(ctx: ToolContext, calls: list[ToolCall]) -> list:
         out = []
         for a in matches[:3]:
             entry = {"num": a.num, "source": a.source, "path": a.path, "url": a.legifrance_url,
-                     "texte": a.text, "date_debut_vigueur": a.date_debut_vigueur,
+                     "texte": a.text[:MAX_ARTICLE], "date_debut_vigueur": a.date_debut_vigueur,
                      "origine": "copie locale"}  # fmt: skip
             if ctx.piste is not None:
                 try:
                     live = ctx.piste.get_article(a.id)
-                    entry.update(texte=live.text, origine="Légifrance (API PISTE)")
+                    entry.update(texte=live.text[:MAX_ARTICLE], origine="Légifrance (API PISTE)")
                     if live.date_debut_vigueur:
                         entry["date_debut_vigueur"] = live.date_debut_vigueur
                 except (PisteError, OSError) as err:
