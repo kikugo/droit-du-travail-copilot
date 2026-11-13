@@ -11,6 +11,7 @@ provider "azurerm" {
     "Microsoft.Insights",
     "Microsoft.App",
     "Microsoft.ManagedIdentity",
+    "Microsoft.Storage",
   ]
 }
 

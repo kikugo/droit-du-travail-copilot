@@ -85,7 +85,8 @@ resource "azurerm_container_app" "api" {
 
   template {
     min_replicas = 0
-    # One replica keeps the in-memory rate limits in copilot/limits.py exact.
+    # One replica keeps the in-memory per-IP window in copilot/limits.py exact; the daily cap
+    # lives in blob storage (storage.tf).
     max_replicas = 1
 
     container {
@@ -126,6 +127,10 @@ resource "azurerm_container_app" "api" {
       env {
         name  = "DAILY_QUESTION_CAP"
         value = tostring(var.daily_question_cap)
+      }
+      env {
+        name  = "DAILY_COUNTER_BLOB_URL"
+        value = "${azurerm_storage_account.counter.primary_blob_endpoint}${azurerm_storage_container.counters.name}"
       }
       env {
         name        = "APPLICATIONINSIGHTS_CONNECTION_STRING"
