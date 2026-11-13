@@ -11,6 +11,12 @@ from copilot.prompts import INSTRUCTIONS, NOTICE, REFUSAL
 from copilot.tools import AVENANT, Corpus, ToolCall, ToolContext, make_tools
 
 ARTICLES = Path("data/articles.jsonl")
+# Spend ceiling per question. Answers so far use under 400 output tokens and at most 5 tool
+# calls (results/agent_eval.json), so these only stop runaway loops and very long outputs.
+MAX_OUTPUT_TOKENS = 1500
+MAX_ITERATIONS = 4  # model round-trips
+MAX_FUNCTION_CALLS = 6
+MAX_TOOL_SECONDS = 60.0
 CODE_NUM = re.compile(r"\b[LRDA]\.?\s?\d{3,4}(?:-\d+)*\b")
 
 # A proxy tracer: spans go to whichever provider telemetry.setup() installs.
@@ -204,7 +210,11 @@ class Copilot:
         from agent_framework import Agent
 
         return Agent(
-            client=self.chat_client, name="copilot", instructions=INSTRUCTIONS, tools=tools
+            client=self.chat_client,
+            name="copilot",
+            instructions=INSTRUCTIONS,
+            tools=tools,
+            default_options={"max_tokens": MAX_OUTPUT_TOKENS},
         )
 
     @classmethod
@@ -225,7 +235,11 @@ class Copilot:
             credential=credential,
         )
         chat.function_invocation_configuration.update(
-            {"max_iterations": 6, "max_function_calls": 10}
+            {
+                "max_iterations": MAX_ITERATIONS,
+                "max_function_calls": MAX_FUNCTION_CALLS,
+                "max_duration_seconds": MAX_TOOL_SECONDS,
+            }
         )
         search_clients = Clients(Settings.from_env())
         with ARTICLES.open(encoding="utf-8") as f:
