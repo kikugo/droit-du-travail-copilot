@@ -11,4 +11,5 @@
 !web/index.html
 !web/vite.config.js
 !web/src/
+!web/public/
 **/__pycache__
