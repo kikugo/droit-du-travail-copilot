@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { citedIn, errorMessage } from "./answer.js";
+import { answerText, blocks, citedIn, errorMessage, methodSteps } from "./answer.js";
 
 const cites = [
   { num: "L1234-1", url: "u1" },
@@ -33,4 +33,41 @@ test("error messages do not depend on a JSON body", async () => {
   assert.match(await errorMessage(resp(502, "<html>Bad Gateway")), /indisponible/);
   assert.match(await errorMessage(resp(500, "Internal Server Error")), /indisponible/);
   assert.match(await errorMessage(resp(413, {})), /trop longue/);
+});
+
+test("dash and numbered lines become lists, the rest stays text", () => {
+  assert.deepEqual(blocks("Deux cas :\n- un CDD\n- un CDI\nSinon rien."), [
+    { type: "p", text: "Deux cas :" },
+    { type: "ul", items: ["un CDD", "un CDI"] },
+    { type: "p", text: "Sinon rien." },
+  ]);
+  assert.deepEqual(blocks("1. d'abord\n2. ensuite"), [
+    { type: "ol", items: ["d'abord", "ensuite"], start: 1 },
+  ]);
+  assert.deepEqual(blocks("Ligne un\nligne deux"), [{ type: "p", text: "Ligne un\nligne deux" }]);
+  // A hyphenated word or a negative figure at the start of a line is not a bullet.
+  assert.deepEqual(blocks("-5 % de prime"), [{ type: "p", text: "-5 % de prime" }]);
+});
+
+test("tool calls read as method steps", () => {
+  const steps = methodSteps([
+    { name: "search_code", args: { query: "préavis", source: "IDCC 1486" }, nums: ["4.2"] },
+    { name: "get_article", args: { num: "L1234-1" }, nums: ["L1234-1"] },
+    { name: "indemnite_licenciement", args: { anciennete_mois: 36, salaire_ref: 3000 }, nums: [] },
+    { name: "unknown_tool", args: {}, nums: [] },
+  ]);
+  assert.deepEqual(steps[0], {
+    label: "Recherche dans les textes",
+    detail: "« préavis » (Syntec)",
+    found: "→ 4.2",
+  });
+  assert.equal(steps[1].detail, "article L1234-1");
+  assert.equal(steps[2].detail, "36 mois d'ancienneté, salaire de référence 3000 €");
+  assert.equal(steps[3].label, "unknown_tool");
+  assert.deepEqual(methodSteps(undefined), []);
+});
+
+test("copied answer carries the question and the source links", () => {
+  const text = answerText("Q ?", "Réponse.", [{ num: "L1", url: "https://x" }, { num: "4.2", url: "" }]);
+  assert.match(text, /^Question : Q \?\n\nRéponse\.\n\nSources :\n- Article L1 : https:\/\/x\n- Article 4\.2\n/);
 });
